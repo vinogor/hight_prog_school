@@ -36,6 +36,7 @@ public class LinkedListTest {
     public void addInTail_01() {
         ll.addInTail(node_3);
         assertThat(ll.toString(), is("3 "));
+        assertThat(ll.tail, is(node_3));
     }
 
     @Test
@@ -43,6 +44,7 @@ public class LinkedListTest {
         ll.addInTail(node_3);
         ll.addInTail(node_10_1);
         assertThat(ll.toString(), is("3 10 "));
+        assertThat(ll.tail, is(node_10_1));
     }
 
     @Test
@@ -51,11 +53,13 @@ public class LinkedListTest {
         ll.addInTail(node_10_1);
         ll.addInTail(node_666);
         assertThat(ll.toString(), is("3 10 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
     public void addInTail_04() {
         assertThat(ll.toString(), is(""));
+        assertThat(ll.tail, nullValue());
     }
 
     @Test
@@ -95,6 +99,7 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         assertThat(ll.remove(3), is(true));
         assertThat(ll.toString(), is("10 11 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
@@ -105,6 +110,7 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         assertThat(ll.remove(666), is(true));
         assertThat(ll.toString(), is("3 10 11 "));
+        assertThat(ll.tail, is(node_11));
     }
 
     @Test
@@ -115,6 +121,7 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         assertThat(ll.remove(11), is(true));
         assertThat(ll.toString(), is("3 10 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
@@ -126,6 +133,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_2);
         assertThat(ll.remove(10), is(true));
         assertThat(ll.toString(), is("3 11 666 10 "));
+        assertThat(ll.tail, is(node_10_2));
     }
 
     @Test
@@ -136,12 +144,14 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         assertThat(ll.remove(1), is(false));
         assertThat(ll.toString(), is("3 10 11 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
     public void remove_06() {
         assertThat(ll.remove(1), is(false));
         assertThat(ll.toString(), is(""));
+        assertThat(ll.tail, nullValue());
     }
 
     @Test
@@ -154,6 +164,7 @@ public class LinkedListTest {
         assertThat(ll.remove(10), is(true));
         assertThat(ll.remove(10), is(true));
         assertThat(ll.toString(), is("3 11 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
@@ -163,6 +174,7 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         ll.removeAll(10);
         assertThat(ll.toString(), is("3 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
@@ -172,6 +184,7 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         ll.removeAll(10);
         assertThat(ll.toString(), is("3 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
@@ -181,6 +194,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_1);
         ll.removeAll(10);
         assertThat(ll.toString(), is("3 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
@@ -188,12 +202,14 @@ public class LinkedListTest {
         ll.addInTail(node_10_1);
         ll.removeAll(10);
         assertThat(ll.toString(), is(""));
+        assertThat(ll.tail, nullValue());
     }
 
     @Test
     public void removeAll_05() {
         ll.removeAll(10);
         assertThat(ll.toString(), is(""));
+        assertThat(ll.tail, nullValue());
     }
 
     @Test
@@ -201,6 +217,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_1);
         ll.removeAll(11);
         assertThat(ll.toString(), is("10 "));
+        assertThat(ll.tail, is(node_10_1));
     }
 
     @Test
@@ -212,6 +229,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_3);
         ll.removeAll(10);
         assertThat(ll.toString(), is("3 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
@@ -221,6 +239,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_3);
         ll.removeAll(10);
         assertThat(ll.toString(), is(""));
+        assertThat(ll.tail, nullValue());
     }
 
     @Test
@@ -230,6 +249,7 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         ll.removeAll(3);
         assertThat(ll.toString(), is("10 11 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
@@ -240,6 +260,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_3);
         ll.removeAll(10);
         assertThat(ll.toString(), is("3 "));
+        assertThat(ll.tail, is(node_3));
     }
 
     @Test
@@ -250,6 +271,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_3);
         ll.removeAll(10);
         assertThat(ll.toString(), is("3 "));
+        assertThat(ll.tail, is(node_3));
     }
 
     @Test
@@ -260,6 +282,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_3);
         ll.removeAll(10);
         assertThat(ll.toString(), is("3 "));
+        assertThat(ll.tail, is(node_3));
     }
 
     @Test
@@ -270,6 +293,7 @@ public class LinkedListTest {
         ll.addInTail(node_3);
         ll.removeAll(10);
         assertThat(ll.toString(), is("3 "));
+        assertThat(ll.tail, is(node_3));
     }
 
     @Test
@@ -279,12 +303,14 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         ll.clear();
         assertThat(ll.toString(), is(""));
+        assertThat(ll.tail, nullValue());
     }
 
     @Test
     public void clear_02() {
         ll.clear();
         assertThat(ll.toString(), is(""));
+        assertThat(ll.tail, nullValue());
     }
 
     @Test
@@ -494,10 +520,9 @@ public class LinkedListTest {
 
         assertThat(ll.toString(), is("3 10 11 666 "));
         assertThat(ll.tail, is(node_666));
-
     }
 
-    @Test // !!!!!
+    @Test
     public void insertAfter_02() {
         ll.addInTail(node_3);
         ll.addInTail(node_11);
@@ -535,7 +560,7 @@ public class LinkedListTest {
         assertThat(ll.tail, is(node_10_2));
     }
 
-    @Test // !!!!!
+    @Test
     public void insertAfter_05() {
         ll.insertAfter(null, node_11);
 
@@ -543,7 +568,7 @@ public class LinkedListTest {
         assertThat(ll.tail, is(node_11));
     }
 
-    @Test // !!!!!
+    @Test
     public void insertAfter_06() {
         ll.insertAfter(null, node_11);
         ll.insertAfter(null, node_3);
@@ -552,7 +577,7 @@ public class LinkedListTest {
         assertThat(ll.tail, is(node_11));
     }
 
-    @Test // !!!!!
+    @Test
     public void insertAfter_07() {
         ll.insertAfter(null, node_11);
         ll.insertAfter(null, node_3);
@@ -562,7 +587,7 @@ public class LinkedListTest {
         assertThat(ll.tail, is(node_11));
     }
 
-    @Test // !!!!!
+    @Test
     public void insertAfter_08() {
         ll.insertAfter(null, node_11);
         ll.insertAfter(node_11, node_3);
@@ -572,11 +597,36 @@ public class LinkedListTest {
         assertThat(ll.tail, is(node_3));
     }
 
-    @Test // !!!!!
+    @Test
     public void insertAfter_09() {
         ll.insertAfter(node_3, node_11);
         ll.insertAfter(null, node_11);
         assertThat(ll.toString(), is("11 "));
+        assertThat(ll.tail, is(node_11));
+    }
+
+    @Test
+    public void insertAfter_10() {
+        ll.addInTail(node_3);
+        ll.insertAfter(null, node_11);
+        assertThat(ll.toString(), is("11 3 "));
+        assertThat(ll.tail, is(node_3));
+    }
+
+    @Test
+    public void insertAfter_11() {
+        ll.addInTail(node_3);
+        ll.insertAfter(node_3, node_11);
+        assertThat(ll.toString(), is("3 11 "));
+        assertThat(ll.tail, is(node_11));
+    }
+
+    @Test
+    public void insertAfter_12() {
+        ll.addInTail(node_3);
+        ll.addInTail(node_666);
+        ll.insertAfter(node_666, node_11);
+        assertThat(ll.toString(), is("3 666 11 "));
         assertThat(ll.tail, is(node_11));
     }
 }

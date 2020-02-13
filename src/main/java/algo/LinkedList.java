@@ -156,10 +156,8 @@ public class LinkedList {
     // (после первого попавшегося подходящего по value)
     public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
 
-        // если пустой списк? что будет с tail?
-
         // если вставка в пустой список
-        if (_nodeAfter == null && head == null) { // tail и так должен == null
+        if (_nodeAfter == null && head == null) { // tail и так должен быть == null
             head = _nodeToInsert;
             tail = _nodeToInsert;
         } else
