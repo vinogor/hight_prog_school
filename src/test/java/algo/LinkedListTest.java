@@ -529,4 +529,44 @@ public class LinkedListTest {
 
         assertThat(ll.toString(), is("3 10 11 666 10 "));
     }
+
+    @Test
+    public void insertAfter_05() {
+        ll.insertAfter(null, node_11);
+
+        assertThat(ll.toString(), is("11 "));
+    }
+
+    @Test
+    public void insertAfter_06() {
+        ll.insertAfter(null, node_11);
+        ll.insertAfter(null, node_3);
+
+        assertThat(ll.toString(), is("3 11 "));
+    }
+
+    @Test
+    public void insertAfter_07() {
+        ll.insertAfter(null, node_11);
+        ll.insertAfter(null, node_3);
+        ll.insertAfter(null, node_10_1);
+
+        assertThat(ll.toString(), is("10 3 11 "));
+    }
+
+    @Test
+    public void insertAfter_08() {
+        ll.insertAfter(null, node_11);
+        ll.insertAfter(node_11, node_3);
+        ll.insertAfter(null, node_10_1);
+
+        assertThat(ll.toString(), is("10 11 3 "));
+    }
+
+    @Test
+    public void insertAfter_09() {
+        ll.insertAfter(node_3, node_11);
+        ll.insertAfter(null, node_11);
+        assertThat(ll.toString(), is("11 "));
+    }
 }

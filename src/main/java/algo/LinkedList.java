@@ -34,14 +34,14 @@ public class LinkedList {
         counter = 0;
     }
 
-    public void addInTail(Node item) {
+    public void addInTail(Node node) {
         if (this.head == null) { // случай когда список пуст
-            this.head = item;
+            this.head = node;
         } else {
             // если список не пуст, то старый хвост будет указывать на новый айтем
-            this.tail.next = item;
+            this.tail.next = node;
         }   // а новым хвостом будет новый айтем
-        this.tail = item;
+        this.tail = node;
         counter++;
     }
 
