@@ -84,8 +84,8 @@ public class LinkedList {
         // если не найдём - вернём налл
         return false;
     }
-    // здесь будет ваш код удаления всех узлов по заданному значению
 
+    // здесь будет ваш код удаления всех узлов по заданному значению
     public void removeAll(int _value) {
         // всё как в методе boolean remove(int _value) только при нахождении - не прекращаем поиск
 
@@ -100,8 +100,11 @@ public class LinkedList {
             if (node.value == _value) {
                 deleteNode(node, nodePrevious);
                 counter--;
+                // nodePrevious - предыдущая осталась та же так как текущую то удалили!!
+            } else {
+                // предыдущей нодой становится уже проверенная нода (для случая 3 и 4)
+                nodePrevious = node;
             }
-            nodePrevious = node; // запоминаем уже проверенную ноду, для случая 3 и 4
             node = node.next;    // берём следующую
         }
     }
