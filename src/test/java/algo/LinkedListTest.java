@@ -493,9 +493,11 @@ public class LinkedListTest {
         ll.insertAfter(node_3, node_10_1);
 
         assertThat(ll.toString(), is("3 10 11 666 "));
+        assertThat(ll.tail, is(node_666));
+
     }
 
-    @Test
+    @Test // !!!!!
     public void insertAfter_02() {
         ll.addInTail(node_3);
         ll.addInTail(node_11);
@@ -504,6 +506,7 @@ public class LinkedListTest {
         ll.insertAfter(node_666, node_10_1);
 
         assertThat(ll.toString(), is("3 11 666 10 "));
+        assertThat(ll.tail, is(node_10_1));
     }
 
 
@@ -516,6 +519,7 @@ public class LinkedListTest {
         ll.insertAfter(null, node_10_1);
 
         assertThat(ll.toString(), is("10 3 11 666 "));
+        assertThat(ll.tail, is(node_666));
     }
 
     @Test
@@ -528,45 +532,51 @@ public class LinkedListTest {
         ll.insertAfter(node_10_3, node_11);
 
         assertThat(ll.toString(), is("3 10 11 666 10 "));
+        assertThat(ll.tail, is(node_10_2));
     }
 
-    @Test
+    @Test // !!!!!
     public void insertAfter_05() {
         ll.insertAfter(null, node_11);
 
         assertThat(ll.toString(), is("11 "));
+        assertThat(ll.tail, is(node_11));
     }
 
-    @Test
+    @Test // !!!!!
     public void insertAfter_06() {
         ll.insertAfter(null, node_11);
         ll.insertAfter(null, node_3);
 
         assertThat(ll.toString(), is("3 11 "));
+        assertThat(ll.tail, is(node_11));
     }
 
-    @Test
+    @Test // !!!!!
     public void insertAfter_07() {
         ll.insertAfter(null, node_11);
         ll.insertAfter(null, node_3);
         ll.insertAfter(null, node_10_1);
 
         assertThat(ll.toString(), is("10 3 11 "));
+        assertThat(ll.tail, is(node_11));
     }
 
-    @Test
+    @Test // !!!!!
     public void insertAfter_08() {
         ll.insertAfter(null, node_11);
         ll.insertAfter(node_11, node_3);
         ll.insertAfter(null, node_10_1);
 
         assertThat(ll.toString(), is("10 11 3 "));
+        assertThat(ll.tail, is(node_3));
     }
 
-    @Test
+    @Test // !!!!!
     public void insertAfter_09() {
         ll.insertAfter(node_3, node_11);
         ll.insertAfter(null, node_11);
         assertThat(ll.toString(), is("11 "));
+        assertThat(ll.tail, is(node_11));
     }
 }

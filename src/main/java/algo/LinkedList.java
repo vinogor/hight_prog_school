@@ -156,30 +156,41 @@ public class LinkedList {
     // (после первого попавшегося подходящего по value)
     public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
 
-        // если вставка в самое начало
-        if (_nodeAfter == null) {
-            _nodeToInsert.next = head;
+        // если пустой списк? что будет с tail?
+
+        // если вставка в пустой список
+        if (_nodeAfter == null && head == null) { // tail и так должен == null
             head = _nodeToInsert;
-            counter++;
-        } else {
-            // если вставка не в начало, то ищем узел (по value) после которого будем делать вставку
-            Node node = this.head;
-            while (node != null) {
-                if (_nodeAfter.value == node.value) {
-                    // вставляем узел
-                    _nodeToInsert.next = node.next;
-                    node.next = _nodeToInsert;
-                    counter++;
-                    // чтобы прекратить поиск
-                    node = null;
-                } else {
-                    node = node.next;
+            tail = _nodeToInsert;
+        } else
+            // если вставка в самое начало
+            if (_nodeAfter == null) {
+                _nodeToInsert.next = head;
+                head = _nodeToInsert;
+                counter++;
+            } else {
+                // если вставка НЕ в начало, то ищем узел (по value) после которого будем делать вставку
+                Node node = this.head;
+                while (node != null) {
+                    if (_nodeAfter.value == node.value) {
+                        // вставляем узел
+                        _nodeToInsert.next = node.next;
+                        node.next = _nodeToInsert;
+                        counter++;
+                        // если вставка в самый конец, то меняем tail
+                        if (tail == node) {
+                            tail = _nodeToInsert;
+                        }
+                        // чтобы прекратить поиск
+                        node = null;
+                    } else {
+                        node = node.next;
+                    }
                 }
             }
-        }
     }
 
-    // встпомогательный метод
+    // вспомогательный метод
     private void deleteNode(Node node, Node nodePrevious) {
         // случай 1 когда узел - единственный
         // === меняем в налл ссылки головы и хвоста
