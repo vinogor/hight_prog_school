@@ -9,13 +9,13 @@ public class ListTransformations {
 
             LinkedList listResult = new LinkedList();
 
-            Node node1 = list1.head;
-            Node node2 = list2.head;
+            Node1 node1 = list1.head;
+            Node1 node12 = list2.head;
 
             while (node1 != null) {
-                listResult.addInTail(new Node(node1.value + node2.value));
+                listResult.addInTail(new Node1(node1.value + node12.value));
                 node1 = node1.next;
-                node2 = node2.next;
+                node12 = node12.next;
             }
             return listResult;
         }

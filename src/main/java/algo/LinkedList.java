@@ -23,8 +23,8 @@ import java.util.*;
 
 // однонаправленный!!!
 public class LinkedList {
-    public Node head;
-    public Node tail;
+    public Node1 head;
+    public Node1 tail;
 
     private int counter;
 
@@ -34,27 +34,27 @@ public class LinkedList {
         counter = 0;
     }
 
-    public void addInTail(Node node) {
+    public void addInTail(Node1 node1) {
         if (this.head == null) { // случай когда список пуст
-            this.head = node;
+            this.head = node1;
         } else {
             // если список не пуст, то старый хвост будет указывать на новый айтем
-            this.tail.next = node;
+            this.tail.next = node1;
         }   // а новым хвостом будет новый айтем
-        this.tail = node;
+        this.tail = node1;
         counter++;
     }
 
-    public Node find(int value) {
+    public Node1 find(int value) {
         // начинаем поиск с головы
-        Node node = this.head;
+        Node1 node1 = this.head;
         // пока не дойдём до конца списка
-        while (node != null) {
-            if (node.value == value) {
+        while (node1 != null) {
+            if (node1.value == value) {
                 //  или пока не найдём и вернём искомое
-                return node;
+                return node1;
             }
-            node = node.next;
+            node1 = node1.next;
         }
         // если не найдём - вернём налл
         return null;
@@ -66,20 +66,20 @@ public class LinkedList {
         // нужно знать предыдущий узел для перелинковки!
 
         // начинаем поиск удаляемого с головы
-        Node node = this.head;
+        Node1 node1 = this.head;
         // тут будем сохранять предыдущую ноду
-        Node nodePrevious = null;
+        Node1 node1Previous = null;
 
         // ищем пока не дойдём до конца списка
-        while (node != null) {
+        while (node1 != null) {
             //  или пока не найдём и осуществим удаление
-            if (node.value == _value) {
-                deleteNode(node, nodePrevious);
+            if (node1.value == _value) {
+                deleteNode(node1, node1Previous);
                 counter--;
                 return true;
             }
-            nodePrevious = node; // запоминаем уже проверенную ноду, для случая 3 и 4
-            node = node.next;    // берём следующую
+            node1Previous = node1; // запоминаем уже проверенную ноду, для случая 3 и 4
+            node1 = node1.next;    // берём следующую
         }
         // если не найдём - вернём налл
         return false;
@@ -90,22 +90,22 @@ public class LinkedList {
         // всё как в методе boolean remove(int _value) только при нахождении - не прекращаем поиск
 
         // начинаем поиск удаляемого с головы
-        Node node = this.head;
+        Node1 node1 = this.head;
         // тут будем сохранять предыдущую ноду
-        Node nodePrevious = null;
+        Node1 node1Previous = null;
 
         // ищем пока не дойдём до конца списка
-        while (node != null) {
+        while (node1 != null) {
             //  и даже если найдём - удалим и пойдём искать дальше!
-            if (node.value == _value) {
-                deleteNode(node, nodePrevious);
+            if (node1.value == _value) {
+                deleteNode(node1, node1Previous);
                 counter--;
                 // nodePrevious - предыдущая осталась та же так как текущую то удалили!!
             } else {
                 // предыдущей нодой становится уже проверенная нода (для случая 3 и 4)
-                nodePrevious = node;
+                node1Previous = node1;
             }
-            node = node.next;    // берём следующую
+            node1 = node1.next;    // берём следующую
         }
     }
 
@@ -117,22 +117,22 @@ public class LinkedList {
     }
 
     // здесь будет ваш код поиска всех узлов
-    public ArrayList<Node> findAll(int _value) {
-        ArrayList<Node> nodes = new ArrayList<>();
+    public ArrayList<Node1> findAll(int _value) {
+        ArrayList<Node1> node1s = new ArrayList<>();
 
         // тут как метод find(int value), только не прекращаем искать если найдём
 
         // начинаем поиск с головы
-        Node node = this.head;
+        Node1 node1 = this.head;
 
         // пока не дойдём до конца списка
-        while (node != null) {
-            if (node.value == _value) {
-                nodes.add(node);
+        while (node1 != null) {
+            if (node1.value == _value) {
+                node1s.add(node1);
             }
-            node = node.next;
+            node1 = node1.next;
         }
-        return nodes;
+        return node1s;
     }
 
     // здесь будет ваш код подсчёта количества элементов в списке
@@ -140,10 +140,10 @@ public class LinkedList {
         // тут каждый раз заного считает длину
         // ниже есть более продвинутый метод
         int counterSimple = 0;
-        Node node = this.head;
-        while (node != null) {
+        Node1 node1 = this.head;
+        while (node1 != null) {
             counterSimple++;
-            node = node.next;
+            node1 = node1.next;
         }
         return counterSimple;
     }
@@ -154,62 +154,62 @@ public class LinkedList {
 
     // здесь будет ваш код вставки узла после заданного
     // (после первого попавшегося подходящего по value)
-    public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
+    public void insertAfter(Node1 _node1After, Node1 _node1ToInsert) {
 
         // если вставка в пустой список
-        if (_nodeAfter == null && head == null) { // tail и так должен быть == null
-            head = _nodeToInsert;
-            tail = _nodeToInsert;
+        if (_node1After == null && head == null) { // tail и так должен быть == null
+            head = _node1ToInsert;
+            tail = _node1ToInsert;
         } else
             // если вставка в самое начало
-            if (_nodeAfter == null) {
-                _nodeToInsert.next = head;
-                head = _nodeToInsert;
+            if (_node1After == null) {
+                _node1ToInsert.next = head;
+                head = _node1ToInsert;
                 counter++;
             } else {
                 // если вставка НЕ в начало, то ищем узел (по value) после которого будем делать вставку
-                Node node = this.head;
-                while (node != null) {
-                    if (_nodeAfter.value == node.value) {
+                Node1 node1 = this.head;
+                while (node1 != null) {
+                    if (_node1After.value == node1.value) {
                         // вставляем узел
-                        _nodeToInsert.next = node.next;
-                        node.next = _nodeToInsert;
+                        _node1ToInsert.next = node1.next;
+                        node1.next = _node1ToInsert;
                         counter++;
                         // если вставка в самый конец, то меняем tail
-                        if (tail == node) {
-                            tail = _nodeToInsert;
+                        if (tail == node1) {
+                            tail = _node1ToInsert;
                         }
                         // чтобы прекратить поиск
-                        node = null;
+                        node1 = null;
                     } else {
-                        node = node.next;
+                        node1 = node1.next;
                     }
                 }
             }
     }
 
     // вспомогательный метод
-    private void deleteNode(Node node, Node nodePrevious) {
+    private void deleteNode(Node1 node1, Node1 node1Previous) {
         // случай 1 когда узел - единственный
         // === меняем в налл ссылки головы и хвоста
-        if (node == head && node == tail) {
+        if (node1 == head && node1 == tail) {
             head = null;
             tail = null;
         } else {
             // случай 2 когда узел - первый
             // === голова будет ссылаться на след узел
-            if (node == head) {
-                head = node.next;
+            if (node1 == head) {
+                head = node1.next;
             } else {
                 // случай 3 когда узел - последний
                 // === хвост будет ссылаться на предыдущий узел, а предыдущий ссылаться на налл
-                if (node == tail) {
-                    tail = nodePrevious;
-                    nodePrevious.next = null;
+                if (node1 == tail) {
+                    tail = node1Previous;
+                    node1Previous.next = null;
                 } else {
                     // случай 4 когда узел - посреди других узлов
                     // === предыдущая нода ссылается на следующую минуя текущую
-                    nodePrevious.next = node.next;
+                    node1Previous.next = node1.next;
                 }
             }
         }
@@ -218,20 +218,21 @@ public class LinkedList {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        Node node = this.head;
-        while (node != null) {
-            sb.append(node.value).append(" ");
-            node = node.next;
+        Node1 node1 = this.head;
+        while (node1 != null) {
+            sb.append(node1.value).append(" ");
+            node1 = node1.next;
         }
         return sb.toString();
     }
 }
 
-class Node {
+// убрать 1 из имени чтобы сервер принял
+class Node1 {
     public int value;
-    public Node next;
+    public Node1 next;
 
-    public Node(int _value) {
+    public Node1(int _value) {
         value = _value;
         next = null;
     }
