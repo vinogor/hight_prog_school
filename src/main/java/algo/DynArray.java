@@ -17,7 +17,7 @@ import java.lang.reflect.Array;
 // 2. Добавьте метод Insert(item, i), который вставляет в i-ю позицию объект item, сдвигая вперёд все последующие
 //    элементы. Учтите, что новая длина массива может превысить размер буфера.
 //
-//3. Добавьте метод Remove(i), который удаляет объект из i-й позиции, при необходимости выполняя сжатие буфера.
+// 3. Добавьте метод Remove(i), который удаляет объект из i-й позиции, при необходимости выполняя сжатие буфера.
 //
 // В обоих случаях, если индекс i лежит вне допустимых границ, генерируйте исключение.
 //
@@ -55,7 +55,7 @@ public class DynArray<T> {
         } else {
             // создаём массив с новой ёмкостью
             T[] newArr = (T[]) Array.newInstance(this.clazz, new_capacity);
-            // копируем старый в новый
+            // копируем старый (полностью) в новый
             System.arraycopy(array, 0, newArr, 0, array.length);
             array = newArr;
             capacity = new_capacity;
@@ -63,30 +63,68 @@ public class DynArray<T> {
     }
 
     public T getItem(int index) {
-        if (index < 0 || index > count - 1) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
+        checkIndex(index);
         return array[index];
     }
 
     // добавление элемента в КОНЕЦ массива
+
     public void append(T itm) {
         // если всё уже заполнено, то удвояем массив
-        if (capacity == count) {
-            makeArray(capacity * 2);
-        }
+        checkCapacity();
         array[count] = itm;
         count++;
     }
 
+    // вставляем В указанный индекс (то что правее - сдвигаем!)
+    //      Важно, единственное исключение: для метода Insert() параметр i может принимать значение,
+    //      равное длине рабочего массива count, в таком случае добавление происходит в его хвост.
     public void insert(T itm, int index) {
-        // ваш код
+
+        // допустимый ли индекс?
+        if (index < 0 || index > count) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+
+        // если вставка за ПОЛНОСТЬЮ заполненный массива
+        // (cap X 2, без сдвига)
+        if (count == capacity && index == capacity) {
+            makeArray(capacity * 2);
+        } else
+            // если вставка в ПОЛНОСТЬЮ заполненный массив
+            // (cap X 2, со сдвигом)
+            if (count == capacity) {
+                makeArray(capacity * 2);
+                System.arraycopy(array, index, array, index + 1, count - index);
+            } else
+                // если вставка в середину, когда есть место (сдвиг)
+                if (index != count) {
+                    System.arraycopy(array, index, array, index + 1, count - index);
+                }
+        // если вставка сразу за конец, когда есть место => просто вставляем (без сдвигов и без увелич ёмкости)
+
+        array[index] = itm;
+        count++;
     }
+
 
     // уменьшаем в 1,5
     // но не менее 16
     public void remove(int index) {
         // ваш код
+    }
+
+
+    private void checkCapacity() {
+        if (capacity == count) {
+            makeArray(capacity * 2);
+        }
+    }
+
+    private void checkIndex(int index) {
+        if (index < 0 || index > count - 1) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
     }
 
 }

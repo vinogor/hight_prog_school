@@ -123,4 +123,119 @@ public class DynArrayTest {
         assertThat(arr.array.length, is(32));
         assertThat(arr.capacity, is(32));
     }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void insert_01() {
+        arr.insert(0, -1);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void insert_02() {
+        arr.insert(0, 1);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void insert_03() {
+        arr.append(0);
+        arr.insert(0, 2);
+    }
+
+    @Test // вставка ЗА пустой массив, в котором есть место
+    public void insert_04() {
+        arr.insert(0, 0);
+
+        assertThat(arr.count, is(1));
+        assertThat(arr.array[0], is(0));
+        assertThat(arr.array[1], nullValue());
+        assertThat(arr.capacity, is(16));
+
+    }
+
+    @Test // вставка ЗА массив с 1 эл-ом, в котором есть место
+    public void insert_05() {
+        arr.append(0);
+        arr.insert(1, 1);
+
+        assertThat(arr.count, is(2));
+        assertThat(arr.array[0], is(0));
+        assertThat(arr.array[1], is(1));
+        assertThat(arr.array[2], nullValue());
+        assertThat(arr.capacity, is(16));
+    }
+
+    @Test // вставка ЗА массив с 2 эл-ом, в котором есть место
+    public void insert_06() {
+        arr.append(0);
+        arr.append(1);
+        arr.insert(2, 2);
+
+        assertThat(arr.count, is(3));
+        assertThat(arr.array[0], is(0));
+        assertThat(arr.array[1], is(1));
+        assertThat(arr.array[2], is(2));
+        assertThat(arr.array[3], nullValue());
+        assertThat(arr.capacity, is(16));
+    }
+
+    @Test // вставка в начало массива, в котором есть место
+    public void insert_07() {
+        arr.append(0);
+        arr.append(1);
+        arr.insert(2, 0);
+
+        assertThat(arr.count, is(3));
+        assertThat(arr.array[0], is(2));
+        assertThat(arr.array[1], is(0));
+        assertThat(arr.array[2], is(1));
+        assertThat(arr.array[3], nullValue());
+        assertThat(arr.capacity, is(16));
+    }
+
+    @Test // вставка в середину массива, в котором есть место
+    public void insert_08() {
+
+        arr.append(0);
+        arr.append(1);
+        arr.insert(2, 1);
+
+        assertThat(arr.count, is(3));
+        assertThat(arr.array[0], is(0));
+        assertThat(arr.array[1], is(2));
+        assertThat(arr.array[2], is(1));
+        assertThat(arr.array[3], nullValue());
+        assertThat(arr.capacity, is(16));
+    }
+
+    @Test // вставка за массив, в котором НЕТ места
+    public void insert_09() {
+        for (int i = 0; i < 16; i++) {
+            arr.append(i);
+        }
+        arr.insert(16, 16);
+
+        assertThat(arr.count, is(17));
+        assertThat(arr.array[15], is(15));
+        assertThat(arr.array[16], is(16));
+        assertThat(arr.array[17], nullValue());
+        assertThat(arr.capacity, is(32));
+    }
+
+    @Test // вставка в середину массива, в котором НЕТ места
+    public void insert_10() {
+        for (int i = 0; i < 16; i++) {
+            arr.append(i);
+        }
+        arr.insert(16, 10);
+
+        assertThat(arr.count, is(17));
+        assertThat(arr.array[9], is(9));
+        assertThat(arr.array[10], is(16));
+        assertThat(arr.array[11], is(10));
+        assertThat(arr.array[16], is(15));
+        assertThat(arr.array[17], nullValue());
+        assertThat(arr.capacity, is(32));
+    }
+
+    // вставка
+
 }
