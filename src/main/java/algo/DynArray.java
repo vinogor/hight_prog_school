@@ -123,34 +123,35 @@ public class DynArray<T> {
         }
         count--;
 
-        // попытка ужать
-        double freeCells = (double) (capacity - count) / capacity;
-        System.out.println("freeCells = " + freeCells);
+        // если есть куда ужимать
+        if (capacity > 16) {
+            double freeCells = (double) (capacity - count) / capacity;
 
-        // если больше половины ячеек свободно и есть куда ужимать
-        if (freeCells > 0.5 && capacity > 16) {
-            int newCapacity = (int) (capacity / 1.5);
-            System.out.println("new Capacity = " + newCapacity);
-            if (newCapacity < 16) {
-                newCapacity = 16;
-                System.out.println("new new Capacity = " + newCapacity);
+            // если больше половины ячеек свободно
+            if (freeCells > 0.5) {
+                int newCapacity = (int) (capacity / 1.5);
+
+                // если ужатие оказалось меньше чем 16
+                if (newCapacity < 16) {
+                    newCapacity = 16;
+                }
+
+                // собственно само ужатие
+                makeArray(newCapacity);
             }
-            // собственно само ужатие
-            makeArray(newCapacity);
         }
     }
 
-
-    private void checkCapacity() {
-        if (capacity == count) {
-            makeArray(capacity * 2);
+        private void checkCapacity () {
+            if (capacity == count) {
+                makeArray(capacity * 2);
+            }
         }
-    }
 
-    private void checkIndex(int index) {
-        if (index < 0 || index > count - 1) {
-            throw new ArrayIndexOutOfBoundsException();
+        private void checkIndex ( int index){
+            if (index < 0 || index > count - 1) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
         }
-    }
 
-}
+    }
