@@ -27,9 +27,11 @@ import java.lang.reflect.Array;
 // 4. Оцените меры сложности для этих двух методов.
 //
 // 5. Напишите тесты, проверяющие работу методов Insert() и Remove():
+//
 //    -- вставка элемента, когда в итоге размер буфера не превышен (проверьте также размер буфера);
 //    -- вставка элемента, когда в результате превышен размер буфера (проверьте также корректное изменение размера буфера);
 //    -- попытка вставки элемента в недопустимую позицию;
+//
 //    -- удаление элемента, когда в результате размер буфера остаётся прежним (проверьте также размер буфера);
 //    -- удаление элемента, когда в результате понижается размер буфера (проверьте также корректное изменение размера буфера);
 //    -- попытка удаления элемента в недопустимой позиции.
@@ -56,7 +58,7 @@ public class DynArray<T> {
             // создаём массив с новой ёмкостью
             T[] newArr = (T[]) Array.newInstance(this.clazz, new_capacity);
             // копируем старый (полностью) в новый
-            System.arraycopy(array, 0, newArr, 0, array.length);
+            System.arraycopy(array, 0, newArr, 0, count);
             array = newArr;
             capacity = new_capacity;
         }
@@ -68,7 +70,6 @@ public class DynArray<T> {
     }
 
     // добавление элемента в КОНЕЦ массива
-
     public void append(T itm) {
         // если всё уже заполнено, то удвояем массив
         checkCapacity();
@@ -108,10 +109,35 @@ public class DynArray<T> {
     }
 
 
-    // уменьшаем в 1,5
-    // но не менее 16
     public void remove(int index) {
-        // ваш код
+
+        checkIndex(index);
+
+        // если удаление с конца (сдвигать не надо)
+        if (index == count - 1) {
+            array[index] = null; // обнулим то что удаляем
+        } else {
+            // удаление через перезапись сдвигом
+            System.arraycopy(array, index + 1, array, index, count - index - 1);
+            array[count - 1] = null; // обнулим последнюю ячейку
+        }
+        count--;
+
+        // попытка ужать
+        double freeCells = (double) (capacity - count) / capacity;
+        System.out.println("freeCells = " + freeCells);
+
+        // если больше половины ячеек свободно и есть куда ужимать
+        if (freeCells > 0.5 && capacity > 16) {
+            int newCapacity = (int) (capacity / 1.5);
+            System.out.println("new Capacity = " + newCapacity);
+            if (newCapacity < 16) {
+                newCapacity = 16;
+                System.out.println("new new Capacity = " + newCapacity);
+            }
+            // собственно само ужатие
+            makeArray(newCapacity);
+        }
     }
 
 

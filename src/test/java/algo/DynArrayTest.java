@@ -3,6 +3,8 @@ package algo;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,16 +12,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DynArrayTest {
 
     private DynArray<Integer> arr;
-    private Integer integer1;
-    private Integer integer2;
-    private Integer integer3;
 
     @Before
     public void setUp() {
         arr = new DynArray<>(Integer.class);
-        integer1 = 1;
-        integer2 = 2;
-        integer3 = 3;
     }
 
     @Test
@@ -236,6 +232,143 @@ public class DynArrayTest {
         assertThat(arr.capacity, is(32));
     }
 
-    // вставка
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void remove_01() {
+        arr.remove(0);
+    }
 
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void remove_02() {
+        arr.remove(-1);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void remove_03() {
+        arr.remove(1);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void remove_04() {
+        arr.append(0);
+        arr.remove(1);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void remove_05() {
+        arr.append(0);
+        arr.remove(0);
+        arr.remove(0);
+    }
+
+
+    @Test // удаляем единственный элемент
+    public void remove_06() {
+        arr.append(0);
+        arr.remove(0);
+
+        System.out.println(Arrays.toString(arr.array));
+
+        assertThat(arr.count, is(0));
+        assertThat(arr.array[0], nullValue());
+        assertThat(arr.capacity, is(16));
+    }
+
+    @Test // удаляем НЕ удинственный элемент с конца (без сдвига)
+    public void remove_07() {
+        arr.append(0);
+        arr.append(1);
+        arr.append(2);
+        System.out.println(Arrays.toString(arr.array));
+        arr.remove(2);
+        System.out.println(Arrays.toString(arr.array));
+
+        assertThat(arr.count, is(2));
+        assertThat(arr.array[0], is(0));
+        assertThat(arr.array[1], is(1));
+        assertThat(arr.array[2], nullValue());
+        assertThat(arr.array[3], nullValue());
+        assertThat(arr.capacity, is(16));
+    }
+
+    @Test // удаляем НЕ удинственный элемент из середины (со сдвигом)
+    public void remove_08() {
+        arr.append(0);
+        arr.append(1);
+        arr.append(2);
+        System.out.println(Arrays.toString(arr.array));
+        arr.remove(1);
+        System.out.println(Arrays.toString(arr.array));
+
+        assertThat(arr.count, is(2));
+        assertThat(arr.array[0], is(0));
+        assertThat(arr.array[1], is(2));
+        assertThat(arr.array[2], nullValue());
+        assertThat(arr.array[3], nullValue());
+        assertThat(arr.capacity, is(16));
+    }
+
+    @Test // удаляем НЕ удинственный элемент с головы (со сдвигом)
+    public void remove_09() {
+        arr.append(0);
+        arr.append(1);
+        arr.append(2);
+        System.out.println(Arrays.toString(arr.array));
+        arr.remove(0);
+        System.out.println(Arrays.toString(arr.array));
+
+        assertThat(arr.count, is(2));
+        assertThat(arr.array[0], is(1));
+        assertThat(arr.array[1], is(2));
+        assertThat(arr.array[2], nullValue());
+        assertThat(arr.array[3], nullValue());
+        assertThat(arr.capacity, is(16));
+    }
+
+    @Test // после удаления ровно 50% свободных (без ужатия)
+    public void remove_10() {
+        for (int i = 0; i < 17; i++) {
+            arr.append(i);
+        }
+        assertThat(arr.count, is(17));
+        assertThat(arr.capacity, is(32));
+        System.out.println(Arrays.toString(arr.array));
+
+        arr.remove(16);
+        assertThat(arr.count, is(16));
+        assertThat(arr.capacity, is(32));
+        System.out.println(Arrays.toString(arr.array));
+    }
+
+    @Test // после удаления ровно 50% минус 1 свободных (с ужатием!)
+    public void remove_11() {
+        for (int i = 0; i < 17; i++) {
+            arr.append(i);
+        }
+        assertThat(arr.count, is(17));
+        assertThat(arr.capacity, is(32));
+        System.out.println(Arrays.toString(arr.array));
+
+        arr.remove(16);
+        arr.remove(15); // тут сработает ужатие
+        assertThat(arr.count, is(15));
+        assertThat(arr.capacity, is(21));
+        System.out.println(Arrays.toString(arr.array));
+    }
+
+    @Test // с кастомной ёмкостью, сжатие с ограничением в 16
+    public void remove_12() {
+        arr.capacity = 17;
+        for (int i = 0; i < 9; i++) { // заполняем чуть больше половины
+            arr.append(i);
+        }
+        assertThat(arr.count, is(9));
+        assertThat(arr.capacity, is(17));
+        System.out.println(Arrays.toString(arr.array));
+
+        arr.remove(8); // тут сработает ужатие
+
+        assertThat(arr.count, is(8));
+        assertThat(arr.capacity, is(16));
+        System.out.println(Arrays.toString(arr.array));
+    }
 }
