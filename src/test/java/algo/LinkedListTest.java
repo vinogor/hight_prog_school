@@ -13,25 +13,25 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LinkedListTest {
 
-    private static LinkedList ll;
+    private static LinkedList<Integer> ll;
 
-    private static Node node_3;
-    private static Node node_10_1;
-    private static Node node_10_2;
-    private static Node node_10_3;
-    private static Node node_11;
-    private static Node node_666;
+    private static Node<Integer> node_3;
+    private static Node<Integer> node_10_1;
+    private static Node<Integer> node_10_2;
+    private static Node<Integer> node_10_3;
+    private static Node<Integer> node_11;
+    private static Node<Integer> node_666;
 
     @Before
     public void setUp() {
-        ll = new LinkedList();
+        ll = new LinkedList<>();
 
-        node_3 = new Node(3);
-        node_10_1 = new Node(10);
-        node_10_2 = new Node(10);
-        node_10_3 = new Node(10);
-        node_11 = new Node(11);
-        node_666 = new Node(666);
+        node_3 = new Node<>(3);
+        node_10_1 = new Node<>(10);
+        node_10_2 = new Node<>(10);
+        node_10_3 = new Node<>(10);
+        node_11 = new Node<>(11);
+        node_666 = new Node<>(666);
     }
 
     @Test
@@ -321,7 +321,7 @@ public class LinkedListTest {
         ll.addInTail(node_11);
         ll.addInTail(node_666);
 
-        ArrayList<Node> result = ll.findAll(10);
+        ArrayList<Node<Integer>> result = ll.findAll(10);
 
         assertThat(result.size(), is(1));
         assertThat(result.get(0).value, is(10));
@@ -334,7 +334,7 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         ll.addInTail(node_10_1);
 
-        ArrayList<Node> result = ll.findAll(10);
+        ArrayList<Node<Integer>> result = ll.findAll(10);
 
         assertThat(result.size(), is(1));
         assertThat(result.get(0).value, is(10));
@@ -347,7 +347,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_1);
         ll.addInTail(node_11);
 
-        ArrayList<Node> result = ll.findAll(10);
+        ArrayList<Node<Integer>> result = ll.findAll(10);
 
         assertThat(result.size(), is(1));
         assertThat(result.get(0).value, is(10));
@@ -361,7 +361,7 @@ public class LinkedListTest {
         ll.addInTail(node_11);
         ll.addInTail(node_666);
 
-        ArrayList<Node> result = ll.findAll(10);
+        ArrayList<Node<Integer>> result = ll.findAll(10);
 
         assertThat(result.size(), is(2));
         assertThat(result.get(0).value, is(10));
@@ -378,7 +378,7 @@ public class LinkedListTest {
         ll.addInTail(node_666);
         ll.addInTail(node_10_3);
 
-        ArrayList<Node> result = ll.findAll(10);
+        ArrayList<Node<Integer>> result = ll.findAll(10);
 
         assertThat(result.size(), is(3));
         assertThat(result.get(0).value, is(10));
@@ -395,7 +395,7 @@ public class LinkedListTest {
         ll.addInTail(node_10_2);
         ll.addInTail(node_10_3);
 
-        ArrayList<Node> result = ll.findAll(10);
+        ArrayList<Node<Integer>> result = ll.findAll(10);
 
         assertThat(result.size(), is(3));
         assertThat(result.get(0).value, is(10));
