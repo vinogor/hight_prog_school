@@ -1,4 +1,4 @@
-package algo;
+package algo.dynArray;
 
 import java.lang.reflect.Array;
 
