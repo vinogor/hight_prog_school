@@ -1,7 +1,5 @@
-package algo;
+package algo.linkedList;
 
-import algo.linkedList.LinkedList;
-import algo.linkedList.Node;
 import org.junit.Before;
 import org.junit.Test;
 

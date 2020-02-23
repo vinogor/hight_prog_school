@@ -1,6 +1,5 @@
-package algo;
+package algo.dynArray;
 
-import algo.dynArray.DynArray;
 import org.junit.Before;
 import org.junit.Test;
 
