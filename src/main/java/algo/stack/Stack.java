@@ -1,49 +1,34 @@
 package algo.stack;
 
-//
+// Не добавляйте инструкции import, не переименовывайте существующие классы и поля, не изменяйте заголовки методов.
 
-import algo.linkedList.LinkedList;
-import algo.linkedList.Node;
+import java.util.*;
 
 public class Stack<T> {
 
     public LinkedList<T> ll;
-    public T lastPushedValue;
 
     public Stack() {
-        // инициализация внутреннего хранилища стека
         ll = new LinkedList<>();
     }
 
     // втолкнуть на вершину
     public void push(T val) {
-        ll.addInTail(new Node<>(val));
+        ll.push(val);
     }
 
     // вытолкнуть с вершины (с удалением)
     public T pop() {
-
-        // если стек пустой то выталкивать нечего
-        if (ll.countPro() == 0) {
-            return null;
-        }
-
-        lastPushedValue = ll.head.value;
-        ll.remove(lastPushedValue);
-
-        return lastPushedValue;
+        return ll.pop();
     }
 
     // получить с вершины (без удаления)
     public T peek() {
-
-        return null; // если стек пустой
+        return ll.peek();
     }
 
     // размер текущего стека
     public int size() {
-        // счётчик возьмём из линкед листа, он уже реализован
-        return ll.countPro();
+        return ll.size();
     }
-
 }
