@@ -18,8 +18,15 @@ public class Stack<T> {
     }
 
     // вытолкнуть с вершины (с удалением)
+    // если выталкивать нечего, возвращает налл
     public T pop() {
-        return ll.pop();
+        T res = null;
+        try {
+            res = ll.pop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
     // получить с вершины (без удаления)
