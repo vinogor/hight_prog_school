@@ -20,16 +20,14 @@ public class Stack<T> {
     // вытолкнуть с вершины (с удалением)
     // если выталкивать нечего, возвращает налл
     public T pop() {
-        T res = null;
-        try {
-            res = ll.pop();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (ll.size() == 0) {
+            return null;
         }
-        return res;
+        return ll.pop();
     }
 
     // получить с вершины (без удаления)
+    // если получить нечего, возвращает налл
     public T peek() {
         return ll.peek();
     }
