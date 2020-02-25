@@ -28,7 +28,6 @@ public class Queue<T> {
         return q.size();
     }
 
-    // ДОПОЛНИТЕЛЬНО:
     // Напишите функцию, которая "вращает" очередь по кругу на N элементов.
     public T roll() {
         // если очередь пуста
@@ -41,5 +40,14 @@ public class Queue<T> {
         // добавим полученное в хвост
         q.add(poll);
         return poll;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (T t : q) {
+            sb.append(t).append(" ");
+        }
+        return sb.toString();
     }
 }
