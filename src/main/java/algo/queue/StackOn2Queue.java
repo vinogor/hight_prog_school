@@ -2,16 +2,29 @@ package algo.queue;
 
 public class StackOn2Queue<T> {
 
-    public Queue<T> q1;
-    public Queue<T> q2;
+    private Queue<T> straight;
+    private Queue<T> reverse;
+    private boolean isStraight;
 
     public StackOn2Queue() {
-        q1 = new Queue<>();
-        q2 = new Queue<>();
+        straight = new Queue<>();
+        reverse = new Queue<>();
+        isStraight = true;
     }
 
     // втолкнуть на вершину
     public void push(T val) {
+        // если очередь хранится в обратном стеке, то переложить всё в прямой
+        if (!isStraight) {
+            shift();
+            isStraight = true;
+        }
+        // положить в прямой
+        straight.enqueue(val);
+    }
+
+    // переложить в другой стек
+    private void shift() {
 
     }
 
@@ -35,5 +48,4 @@ public class StackOn2Queue<T> {
 
         return 0;
     }
-
 }
