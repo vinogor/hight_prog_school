@@ -21,6 +21,7 @@ public class QueueOn2Stacks<T> {
         if (!isStraight) {
             shift();
             isStraight = true;
+            return;
         }
         // положить в прямой
         straight.push(val);
