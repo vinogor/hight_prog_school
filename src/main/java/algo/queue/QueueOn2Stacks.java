@@ -5,8 +5,8 @@ import algo.stack.Stack;
 // очередь на основе 2х стеков
 public class QueueOn2Stacks<T> {
 
-    private Stack<T> straight;
-    private Stack<T> reverse;
+    public Stack<T> straight;
+    public Stack<T> reverse;
 
     public QueueOn2Stacks() {
         straight = new Stack<>();
@@ -40,7 +40,7 @@ public class QueueOn2Stacks<T> {
         }
 
         // собственно выталкиваем с удалением
-        return reverse.peek();
+        return reverse.pop();
     }
 
     // размер текущей очереди

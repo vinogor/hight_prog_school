@@ -36,4 +36,13 @@ public class Stack<T> {
     public int size() {
         return ll.size();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (T t : ll) {
+            sb.append(t).append(" ");
+        }
+        return sb.toString();
+    }
 }
