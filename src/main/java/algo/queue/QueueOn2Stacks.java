@@ -1,14 +1,17 @@
 package algo.queue;
 
-public class StackOn2Queue<T> {
+import algo.stack.Stack;
 
-    private Queue<T> straight;
-    private Queue<T> reverse;
+// очередь на основе 2х стеков
+public class QueueOn2Stacks<T> {
+
+    private Stack<T> straight;
+    private Stack<T> reverse;
     private boolean isStraight;
 
-    public StackOn2Queue() {
-        straight = new Queue<>();
-        reverse = new Queue<>();
+    public QueueOn2Stacks() {
+        straight = new Stack<>();
+        reverse = new Stack<>();
         isStraight = true;
     }
 
@@ -20,7 +23,7 @@ public class StackOn2Queue<T> {
             isStraight = true;
         }
         // положить в прямой
-        straight.enqueue(val);
+        straight.push(val);
     }
 
     // переложить в другой стек
