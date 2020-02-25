@@ -7,49 +7,51 @@ public class QueueOn2Stacks<T> {
 
     private Stack<T> straight;
     private Stack<T> reverse;
-    private boolean isStraight;
 
     public QueueOn2Stacks() {
         straight = new Stack<>();
         reverse = new Stack<>();
-        isStraight = true;
     }
 
-    // втолкнуть на вершину
-    public void push(T val) {
+    // добавить в хвост очереди
+    public void enqueue(T item) {
+
         // если очередь хранится в обратном стеке, то переложить всё в прямой
-        if (!isStraight) {
-            shift();
-            isStraight = true;
-            return;
+        if (straight.size() == 0) {
+            shift(reverse, straight);
         }
-        // положить в прямой
-        straight.push(val);
+
+        // положить в прямой стек (конец очереди)
+        straight.push(item);
+    }
+
+    // выдача из головы (с удалением)
+    // null если очередь пустая
+    public T dequeue() {
+
+        // если очередь пуста
+        if (straight.size() == 0 && reverse.size() == 0) {
+            return null;
+        }
+
+        // если очередь хранится в прямом стеке, то переложить всё в обратный
+        if (reverse.size() == 0) {
+            shift(straight, reverse);
+        }
+
+        // собственно выталкиваем с удалением
+        return reverse.peek();
+    }
+
+    // размер текущей очереди
+    public int size() {
+        return straight.size() + reverse.size();
     }
 
     // переложить в другой стек
-    private void shift() {
-
-    }
-
-    // вытолкнуть с вершины (с удалением)
-    // если выталкивать нечего, возвращает налл
-    public T pop() {
-
-
-        return null;
-    }
-
-    // получить с вершины (без удаления)
-    // если получить нечего, возвращает налл
-    public T peek() {
-
-        return null;
-    }
-
-    // размер текущего стека
-    public int size() {
-
-        return 0;
+    private void shift(Stack<T> source, Stack<T> destination) {
+        while (source.size() != 0) {
+            destination.push(source.pop());
+        }
     }
 }
