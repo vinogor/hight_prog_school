@@ -77,7 +77,7 @@ public class OrderedList<T> {
                 // и вставляем между узлами
                 else {
                     Node<T> node = this.head;
-                    while (true) { // так как хвост мы уже сравнили
+                    while (true) {
                         if ((_ascending && (compare(node.value, value) <= 0) && (compare(value, node.next.value) <= 0))
                                 || (!_ascending && (compare(node.value, value) >= 0) && (compare(value, node.next.value) >= 0))) {
 
@@ -97,6 +97,10 @@ public class OrderedList<T> {
     // Переделайте функцию поиска с учётом признака упорядоченности и возможности раннего прерывания поиска,
     // если найден заведомо больший или меньший элемент, нежели искомый (то есть значение по сути не найдено).
     public Node<T> find(T val) {
+
+        if (head == null) {
+            return null;
+        }
 
         Node<T> node = this.head;
         while (node != null) {
@@ -156,7 +160,7 @@ public class OrderedList<T> {
                                     break;
                                 }
 
-                                // досрочный выход когда точно не найдётся
+                                // досрочный выход когда понятно что точно не найдётся
                                 if ((_ascending && compare(node.value, val) > 0)
                                         || (!_ascending && compare(node.value, val) < 0)) {
                                     break;
