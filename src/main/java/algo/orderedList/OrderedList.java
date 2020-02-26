@@ -111,9 +111,41 @@ public class OrderedList<T> {
         return null;
     }
 
-    //
     public void delete(T val) {
-        // здесь будет ваш код
+
+        // если удалять с головы
+        if (compare(head.value, val) == 0) {
+            head.next.prev = null;
+            head = head.next;
+        } else
+            // если удалять с хвоста
+            if (compare(tail.value, val) == 0) {
+                tail.prev.next = null;
+                tail = tail.prev;
+            }
+            // если удалять из середины
+            else {
+                // последовательный перебор исключая голову и хвост
+                Node<T> node = this.head.next;
+                while (node != tail) {
+
+                    if (compare(node.value, val) == 0) {
+                        // удаляем
+                        node.prev.next = node.next.prev;
+                        node.next.prev = node.prev.next;
+                        break;
+                    }
+
+                    // досрочный выход
+                    if ((_ascending && compare(node.value, val) > 0)
+                            || (!_ascending && compare(node.value, val) < 0)) {
+                        System.out.println("досрочный выход!!! ");
+                        break;
+                    }
+
+                    node = node.next;
+                }
+            }
     }
 
     public void clear(boolean asc) {
