@@ -502,15 +502,453 @@ public class OrderedListTest {
     }
     
     @Test
-    public void delete() {
+    public void delete_asc_01() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(33);
+
+        assertThat(ol.getAll().size(), is(7));
+        assertThat(ol.getAll().get(0).value, is(-100));
+        assertThat(ol.getAll().get(1).value, is(0));
+        assertThat(ol.getAll().get(2).value, is(1));
+        assertThat(ol.getAll().get(3).value, is(3));
+        assertThat(ol.getAll().get(4).value, is(6));
+        assertThat(ol.getAll().get(5).value, is(7));
+        assertThat(ol.getAll().get(6).value, is(100));
     }
 
     @Test
-    public void clear() {
+    public void delete_asc_02() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(-100);
+
+        assertThat(ol.getAll().size(), is(6));
+        assertThat(ol.getAll().get(0).value, is(0));
+        assertThat(ol.getAll().get(1).value, is(1));
+        assertThat(ol.getAll().get(2).value, is(3));
+        assertThat(ol.getAll().get(3).value, is(6));
+        assertThat(ol.getAll().get(4).value, is(7));
+        assertThat(ol.getAll().get(5).value, is(100));
+    }
+
+    @Test
+    public void delete_asc_03() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(100);
+
+        assertThat(ol.getAll().size(), is(6));
+        assertThat(ol.getAll().get(0).value, is(-100));
+        assertThat(ol.getAll().get(1).value, is(0));
+        assertThat(ol.getAll().get(2).value, is(1));
+        assertThat(ol.getAll().get(3).value, is(3));
+        assertThat(ol.getAll().get(4).value, is(6));
+        assertThat(ol.getAll().get(5).value, is(7));
+    }
+
+    @Test
+    public void delete_asc_04() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(3);
+
+        assertThat(ol.getAll().size(), is(6));
+        assertThat(ol.getAll().get(0).value, is(-100));
+        assertThat(ol.getAll().get(1).value, is(0));
+        assertThat(ol.getAll().get(2).value, is(1));
+        assertThat(ol.getAll().get(3).value, is(6));
+        assertThat(ol.getAll().get(4).value, is(7));
+        assertThat(ol.getAll().get(5).value, is(100));
+    }
+
+    @Test
+    public void delete_asc_05() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(0);
+
+        assertThat(ol.getAll().size(), is(6));
+        assertThat(ol.getAll().get(0).value, is(-100));
+        assertThat(ol.getAll().get(1).value, is(1));
+        assertThat(ol.getAll().get(2).value, is(3));
+        assertThat(ol.getAll().get(3).value, is(6));
+        assertThat(ol.getAll().get(4).value, is(7));
+        assertThat(ol.getAll().get(5).value, is(100));
+    }
+
+    @Test
+    public void delete_asc_06() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(4);
+
+        assertThat(ol.getAll().size(), is(7));
+        assertThat(ol.getAll().get(0).value, is(-100));
+        assertThat(ol.getAll().get(1).value, is(0));
+        assertThat(ol.getAll().get(2).value, is(1));
+        assertThat(ol.getAll().get(3).value, is(3));
+        assertThat(ol.getAll().get(4).value, is(6));
+        assertThat(ol.getAll().get(5).value, is(7));
+        assertThat(ol.getAll().get(6).value, is(100));
+    }
+
+    @Test
+    public void delete_asc_07() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(-50);
+
+        assertThat(ol.getAll().size(), is(7));
+        assertThat(ol.getAll().get(0).value, is(-100));
+        assertThat(ol.getAll().get(1).value, is(0));
+        assertThat(ol.getAll().get(2).value, is(1));
+        assertThat(ol.getAll().get(3).value, is(3));
+        assertThat(ol.getAll().get(4).value, is(6));
+        assertThat(ol.getAll().get(5).value, is(7));
+        assertThat(ol.getAll().get(6).value, is(100));
+    }
+
+    @Test
+    public void delete_asc_08() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(-50);
+        ol.delete(-100);
+        ol.delete(0);
+        ol.delete(33);
+        ol.delete(6);
+
+        assertThat(ol.getAll().size(), is(4));
+        assertThat(ol.getAll().get(0).value, is(1));
+        assertThat(ol.getAll().get(1).value, is(3));
+        assertThat(ol.getAll().get(2).value, is(7));
+        assertThat(ol.getAll().get(3).value, is(100));
+    }
+
+    @Test
+    public void delete_desc_01() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(33);
+
+        assertThat(ol.getAll().size(), is(7));
+        assertThat(ol.getAll().get(0).value, is(100));
+        assertThat(ol.getAll().get(1).value, is(7));
+        assertThat(ol.getAll().get(2).value, is(6));
+        assertThat(ol.getAll().get(3).value, is(3));
+        assertThat(ol.getAll().get(4).value, is(1));
+        assertThat(ol.getAll().get(5).value, is(0));
+        assertThat(ol.getAll().get(6).value, is(-100));
+    }
+
+    @Test
+    public void delete_desc_02() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(-100);
+
+        assertThat(ol.getAll().size(), is(6));
+        assertThat(ol.getAll().get(0).value, is(100));
+        assertThat(ol.getAll().get(1).value, is(7));
+        assertThat(ol.getAll().get(2).value, is(6));
+        assertThat(ol.getAll().get(3).value, is(3));
+        assertThat(ol.getAll().get(4).value, is(1));
+        assertThat(ol.getAll().get(5).value, is(0));
+    }
+
+    @Test
+    public void delete_desc_03() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(100);
+
+        assertThat(ol.getAll().size(), is(6));
+        assertThat(ol.getAll().get(5).value, is(-100));
+        assertThat(ol.getAll().get(4).value, is(0));
+        assertThat(ol.getAll().get(3).value, is(1));
+        assertThat(ol.getAll().get(2).value, is(3));
+        assertThat(ol.getAll().get(1).value, is(6));
+        assertThat(ol.getAll().get(0).value, is(7));
+    }
+
+    @Test
+    public void delete_desc_04() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(3);
+
+        assertThat(ol.getAll().size(), is(6));
+        assertThat(ol.getAll().get(5).value, is(-100));
+        assertThat(ol.getAll().get(4).value, is(0));
+        assertThat(ol.getAll().get(3).value, is(1));
+        assertThat(ol.getAll().get(2).value, is(6));
+        assertThat(ol.getAll().get(1).value, is(7));
+        assertThat(ol.getAll().get(0).value, is(100));
+    }
+
+    @Test
+    public void delete_desc_05() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(0);
+
+        assertThat(ol.getAll().size(), is(6));
+        assertThat(ol.getAll().get(5).value, is(-100));
+        assertThat(ol.getAll().get(4).value, is(1));
+        assertThat(ol.getAll().get(3).value, is(3));
+        assertThat(ol.getAll().get(2).value, is(6));
+        assertThat(ol.getAll().get(1).value, is(7));
+        assertThat(ol.getAll().get(0).value, is(100));
+    }
+
+    @Test
+    public void delete_desc_06() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(4);
+
+        assertThat(ol.getAll().size(), is(7));
+        assertThat(ol.getAll().get(6).value, is(-100));
+        assertThat(ol.getAll().get(5).value, is(0));
+        assertThat(ol.getAll().get(4).value, is(1));
+        assertThat(ol.getAll().get(3).value, is(3));
+        assertThat(ol.getAll().get(2).value, is(6));
+        assertThat(ol.getAll().get(1).value, is(7));
+        assertThat(ol.getAll().get(0).value, is(100));
+    }
+
+    @Test
+    public void delete_desc_07() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(-50);
+
+        assertThat(ol.getAll().size(), is(7));
+        assertThat(ol.getAll().get(6).value, is(-100));
+        assertThat(ol.getAll().get(5).value, is(0));
+        assertThat(ol.getAll().get(4).value, is(1));
+        assertThat(ol.getAll().get(3).value, is(3));
+        assertThat(ol.getAll().get(2).value, is(6));
+        assertThat(ol.getAll().get(1).value, is(7));
+        assertThat(ol.getAll().get(0).value, is(100));
+    }
+
+    @Test
+    public void delete_desc_08() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(7);
+        ol.add(6);
+        ol.add(3);
+        ol.add(1);
+        ol.add(100);
+        ol.add(-100);
+
+        assertThat(ol.getAll().size(), is(7));
+
+        ol.delete(-50);
+        ol.delete(-100);
+        ol.delete(0);
+        ol.delete(33);
+        ol.delete(6);
+
+        assertThat(ol.getAll().size(), is(4));
+        assertThat(ol.getAll().get(3).value, is(1));
+        assertThat(ol.getAll().get(2).value, is(3));
+        assertThat(ol.getAll().get(1).value, is(7));
+        assertThat(ol.getAll().get(0).value, is(100));
+    }
+
+    @Test
+    public void clear_asc_asc_01() {
+        ol = new OrderedList<>(true);
+
+        ol.clear(true);
+
+        assertThat(ol.toString(), is(""));
+    }
+
+    @Test
+    public void clear_asc_asc_02() {
+        ol = new OrderedList<>(true);
+
+        ol.add(0);
+        ol.add(1);
+        ol.add(2);
+
+        assertThat(ol.toString(), is("0 1 2 "));
+
+        ol.clear(true);
+
+        assertThat(ol.toString(), is(""));
+
+        ol.add(0);
+        ol.add(1);
+        ol.add(2);
+
+        assertThat(ol.toString(), is("0 1 2 "));
+    }
+
+    @Test
+    public void clear_asc_desc_02() {
+        ol = new OrderedList<>(true);
+
+        ol.add(0);
+        ol.add(1);
+        ol.add(2);
+
+        assertThat(ol.toString(), is("0 1 2 "));
+
+        ol.clear(false);
+
+        assertThat(ol.toString(), is(""));
+
+        ol.add(0);
+        ol.add(1);
+        ol.add(2);
+
+        assertThat(ol.toString(), is("2 1 0 "));
     }
 
     @Test
     public void count() {
+
     }
 
 }

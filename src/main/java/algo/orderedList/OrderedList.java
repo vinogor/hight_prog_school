@@ -131,15 +131,14 @@ public class OrderedList<T> {
 
                     if (compare(node.value, val) == 0) {
                         // удаляем
-                        node.prev.next = node.next.prev;
-                        node.next.prev = node.prev.next;
+                        node.prev.next = node.next;
+                        node.next.prev = node.prev;
                         break;
                     }
 
                     // досрочный выход
                     if ((_ascending && compare(node.value, val) > 0)
                             || (!_ascending && compare(node.value, val) < 0)) {
-                        System.out.println("досрочный выход!!! ");
                         break;
                     }
 
@@ -149,8 +148,9 @@ public class OrderedList<T> {
     }
 
     public void clear(boolean asc) {
+        head = null;
+        tail = null;
         _ascending = asc;
-        // здесь будет ваш код
     }
 
     public int count() {
@@ -167,5 +167,16 @@ public class OrderedList<T> {
             node = node.next;
         }
         return r;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Node node = this.head;
+        while (node != null) {
+            sb.append(node.value).append(" ");
+            node = node.next;
+        }
+        return sb.toString();
     }
 }
