@@ -19,11 +19,13 @@ public class OrderedList<T> {
 
     public Node<T> head, tail;
     private boolean _ascending; // по возрастанию
+    private int counter;
 
     public OrderedList(boolean asc) {
         head = null;
         tail = null;
         _ascending = asc;
+        counter = 0;
     }
 
     // -1 если v1 < v2
@@ -89,6 +91,7 @@ public class OrderedList<T> {
                         node = node.next;
                     }
                 }
+        counter++;
     }
 
     // Переделайте функцию поиска с учётом признака упорядоченности и возможности раннего прерывания поиска,
@@ -113,48 +116,66 @@ public class OrderedList<T> {
 
     public void delete(T val) {
 
-        // если удалять с головы
-        if (compare(head.value, val) == 0) {
-            head.next.prev = null;
-            head = head.next;
+        // если удалять из пустого
+        if (head == null) {
+            return;
         } else
-            // если удалять с хвоста
-            if (compare(tail.value, val) == 0) {
-                tail.prev.next = null;
-                tail = tail.prev;
-            }
-            // если удалять из середины
-            else {
-                // последовательный перебор исключая голову и хвост
-                Node<T> node = this.head.next;
-                while (node != tail) {
+            // если удалять из списка в 1 элемент
+            if (head == tail && (compare(head.value, val) == 0)) {
+                head = null;
+                tail = null;
+                counter--;
+            } else
+                // если есть только 1 эл-т и его удалять не надо
+                if (head == tail) {
+                    return;
+                } else
+                    // если удалять с головы
+                    if (compare(head.value, val) == 0) {
+                        head.next.prev = null;
+                        head = head.next;
+                        counter--;
+                    } else
+                        // если удалять с хвоста
+                        if (compare(tail.value, val) == 0) {
+                            tail.prev.next = null;
+                            tail = tail.prev;
+                            counter--;
+                        }
+                        // если удалять из середины
+                        else {
+                            // последовательный перебор исключая голову и хвост
+                            Node<T> node = this.head.next;
+                            while (node != tail) {
 
-                    if (compare(node.value, val) == 0) {
-                        // удаляем
-                        node.prev.next = node.next;
-                        node.next.prev = node.prev;
-                        break;
-                    }
+                                if (compare(node.value, val) == 0) {
+                                    // удаляем
+                                    node.prev.next = node.next;
+                                    node.next.prev = node.prev;
+                                    counter--;
+                                    break;
+                                }
 
-                    // досрочный выход
-                    if ((_ascending && compare(node.value, val) > 0)
-                            || (!_ascending && compare(node.value, val) < 0)) {
-                        break;
-                    }
+                                // досрочный выход когда точно не найдётся
+                                if ((_ascending && compare(node.value, val) > 0)
+                                        || (!_ascending && compare(node.value, val) < 0)) {
+                                    break;
+                                }
 
-                    node = node.next;
-                }
-            }
+                                node = node.next;
+                            }
+                        }
     }
 
     public void clear(boolean asc) {
         head = null;
         tail = null;
         _ascending = asc;
+        counter = 0;
     }
 
     public int count() {
-        return 0; // здесь будет ваш код подсчёта количества элементов в списке
+        return counter;
     }
 
     ArrayList<Node<T>> getAll() {

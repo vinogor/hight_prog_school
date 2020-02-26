@@ -947,8 +947,174 @@ public class OrderedListTest {
     }
 
     @Test
-    public void count() {
-
+    public void count_01() {
+        ol = new OrderedList<>(true);
+        assertThat(ol.count(), is(0));
     }
 
+    @Test
+    public void count_02() {
+        ol = new OrderedList<>(true);
+        ol.add(1);
+
+        assertThat(ol.count(), is(1));
+    }
+
+    @Test
+    public void count_03() {
+        ol = new OrderedList<>(true);
+        ol.add(1);
+        ol.add(2);
+
+        assertThat(ol.count(), is(2));
+    }
+
+    @Test
+    public void count_04() {
+        ol = new OrderedList<>(true);
+        ol.add(1);
+        ol.add(2);
+        ol.add(3);
+
+        assertThat(ol.count(), is(3));
+    }
+
+    @Test
+    public void count_05() {
+        ol = new OrderedList<>(true);
+        ol.add(1);
+        ol.add(2);
+        ol.add(3);
+
+        ol.clear(true);
+
+        assertThat(ol.count(), is(0));
+    }
+
+    @Test
+    public void count_06() {
+        ol = new OrderedList<>(true);
+        ol.add(1);
+        ol.add(2);
+        ol.add(3);
+
+        ol.delete(1);
+
+        assertThat(ol.count(), is(2));
+    }
+
+    @Test
+    public void count_07() {
+        ol = new OrderedList<>(true);
+        ol.add(1);
+        ol.add(2);
+        ol.add(3);
+
+        ol.delete(2);
+
+        assertThat(ol.count(), is(2));
+    }
+
+    @Test
+    public void count_08() {
+        ol = new OrderedList<>(true);
+        ol.add(1);
+        ol.add(2);
+        ol.add(3);
+
+        ol.delete(3);
+
+        assertThat(ol.count(), is(2));
+    }
+
+    @Test
+    public void count_09() {
+        ol = new OrderedList<>(true);
+        ol.add(1);
+        ol.add(2);
+        ol.add(3);
+
+        ol.delete(3);
+        ol.delete(0);
+        ol.delete(1);
+
+        assertThat(ol.count(), is(1));
+    }
+
+    @Test
+    public void count_10() {
+        ol = new OrderedList<>(true);
+        ol.add(1);
+        ol.add(2);
+        ol.add(3);
+
+        System.out.println(ol);
+        ol.delete(3);
+        System.out.println(ol);
+        ol.delete(0);
+        System.out.println(ol);
+        ol.delete(1);
+        System.out.println(ol);
+        ol.delete(-1);
+        System.out.println(ol);
+        ol.delete(2);
+        System.out.println(ol);
+
+        assertThat(ol.count(), is(0));
+    }
+
+    @Test
+    public void delete_asc_01_1() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+
+        assertThat(ol.getAll().size(), is(1));
+
+        ol.delete(0);
+
+        assertThat(ol.getAll().size(), is(0));
+    }
+
+    @Test
+    public void delete_asc_01_2() {
+        ol = new OrderedList<>(true);
+
+        assertThat(ol.getAll().size(), is(0));
+
+        ol.delete(0);
+
+        assertThat(ol.getAll().size(), is(0));
+    }
+
+    @Test
+    public void delete_asc_01_3() {
+        ol = new OrderedList<>(true);
+
+        ol.add(0);
+        ol.add(1);
+
+        ol.delete(0);
+
+        assertThat(ol.getAll().size(), is(1));
+        assertThat(ol.getAll().get(0).value, is(1));
+    }
+
+    @Test
+    public void delete_asc_01_4() {
+        ol = new OrderedList<>(true);
+
+        ol.add(0);
+        ol.add(1);
+        ol.add(2);
+        ol.add(3);
+        ol.add(4);
+
+        ol.delete(4);
+        ol.delete(1);
+        ol.delete(3);
+        ol.delete(0);
+        ol.delete(2);
+
+        assertThat(ol.getAll().size(), is(0));
+    }
 }
