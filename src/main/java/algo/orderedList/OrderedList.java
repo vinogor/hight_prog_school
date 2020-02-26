@@ -14,7 +14,7 @@ class Node<T> {
     }
 }
 
-// на основе двусвязного списка
+// на основе идеи двусвязного списка
 public class OrderedList<T> {
 
     public Node<T> head, tail;
@@ -94,6 +94,20 @@ public class OrderedList<T> {
     // Переделайте функцию поиска с учётом признака упорядоченности и возможности раннего прерывания поиска,
     // если найден заведомо больший или меньший элемент, нежели искомый (то есть значение по сути не найдено).
     public Node<T> find(T val) {
+
+        Node<T> node = this.head;
+        while (node != null) {
+
+            if (compare(node.value, val) == 0) {
+                return node;
+            } else
+                // досрочный выход
+                if ((_ascending && compare(node.value, val) > 0)
+                        || (!_ascending && compare(node.value, val) < 0)) {
+                    return null;
+                }
+            node = node.next;
+        }
         return null;
     }
 

@@ -3,6 +3,7 @@ package algo.orderedList;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class OrderedListTest {
@@ -270,9 +271,236 @@ public class OrderedListTest {
 
 
     @Test
-    public void find() {
+    public void find_asc_01() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(0);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res.value, is(0));
     }
 
+    @Test
+    public void find_asc_02() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(20);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res.value, is(20));
+    }
+
+    @Test
+    public void find_asc_03() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(40);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res.value, is(40));
+    }
+
+    @Test
+    public void find_asc_04() {
+        ol = new OrderedList<>(true);
+
+        Node<Integer> res = ol.find(0);
+
+        assertThat(ol.getAll().size(), is(0));
+        assertThat(res, nullValue());
+    }
+
+    @Test
+    public void find_asc_05() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(15);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res, nullValue());
+    }
+
+    @Test
+    public void find_asc_06() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(45);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res, nullValue());
+    }
+
+    @Test
+    public void find_asc_07() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(-45);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res, nullValue());
+    }
+
+    @Test
+    public void find_asc_08() {
+        ol = new OrderedList<>(true);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(33);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res, nullValue());
+    }
+
+
+    @Test
+    public void find_desc_01() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(0);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res.value, is(0));
+    }
+
+    @Test
+    public void find_desc_02() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(20);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res.value, is(20));
+    }
+
+    @Test
+    public void find_desc_03() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(40);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res.value, is(40));
+    }
+
+    @Test
+    public void find_desc_04() {
+        ol = new OrderedList<>(false);
+
+        Node<Integer> res = ol.find(0);
+
+        assertThat(ol.getAll().size(), is(0));
+        assertThat(res, nullValue());
+    }
+
+    @Test
+    public void find_desc_05() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(15);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res, nullValue());
+    }
+
+    @Test
+    public void find_desc_06() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(45);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res, nullValue());
+    }
+
+    @Test
+    public void find_desc_07() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(-45);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res, nullValue());
+    }
+
+    @Test
+    public void find_desc_08() {
+        ol = new OrderedList<>(false);
+        ol.add(0);
+        ol.add(10);
+        ol.add(20);
+        ol.add(30);
+        ol.add(40);
+
+        Node<Integer> res = ol.find(33);
+
+        assertThat(ol.getAll().size(), is(5));
+        assertThat(res, nullValue());
+    }
+    
     @Test
     public void delete() {
     }
@@ -285,7 +513,4 @@ public class OrderedListTest {
     public void count() {
     }
 
-    @Test
-    public void getAll() {
-    }
 }
