@@ -36,14 +36,25 @@ public class OrderedList<T> {
     //  если это строки, то их надо перед стандартным в любом языке
     //  лексикографическом сравнением очистить от начальных и конечных пробелов.
 
-    // ??? Пока сделайте базовый вариант этого метода, который сравнивает числовые значения.
-
     public int compare(T v1, T v2) {
         if (v1 instanceof Integer && v2 instanceof Integer) {
             if (v1.equals(v2)) { // так как пул
                 return 0;
             } else {
                 return (Integer) v1 > (Integer) v2 ? 1 : -1;
+            }
+        } else
+            //
+        if (v1 instanceof String && v2 instanceof String) {
+            if (v1.equals(v2)) {
+                return 0;
+            } else {
+                // очистим от пробелов по краям
+                String s1 = ((String) v1).trim();
+                String s2 = ((String) v2).trim();
+
+                // лексикографическое сравнение строк
+                return s1.compareTo(s2);
             }
         }
         return 0;
