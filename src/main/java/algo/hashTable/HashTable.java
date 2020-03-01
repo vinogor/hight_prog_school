@@ -9,38 +9,84 @@ package algo.hashTable;
 //
 //  Напишите тесты, которые проверяют работу этих четырёх методов.
 
+
 public class HashTable {
-    public int size;       // размер хэш-таблицы, желательно простое число (17, 19)
-    public int step;       // шаг поиска свободного слота, например 3 (а почему не один?!)
-    public String[] slots; // массив со слотами, прописать фиксированный размер!!!
+    public int size;        // размер хэш-таблицы, желательно простое число (17, 19)
+    public int step;        // шаг поиска свободного слота, например 3 (а почему не один?!)
+    public String[] slots;  // массив со слотами, фиксированный размер
+    public int counter;
 
     public HashTable(int sz, int stp) {
         size = sz;
         step = stp;
         slots = new String[size];
+        counter = 0;
         for (int i = 0; i < size; i++) slots[i] = null;
     }
 
+    // всегда возвращает корректный индекс слота
     public int hashFun(String value) {
-        // всегда возвращает корректный индекс слота
-        return 0;
+        return value.hashCode() % size;
     }
 
-    public int seekSlot(String value) {
-        // находит индекс пустого слота для значения, или -1
-        return -1;
-    }
-
+    // записываем значение по хэш-функции
     public int put(String value) {
-        // записываем значение по хэш-функции
+        int slotNumber = seekSlot(value);
+        if (slotNumber == -1) {
+            return -1;
+        }
+        slots[slotNumber] = value;
+        counter++;
+        return slotNumber;
+    }
 
-        // возвращается индекс слота или -1
-        // если из-за коллизий элемент не удаётся разместить
+    // находит индекс пустого слота для значения, или -1
+    public int seekSlot(String value) {
+
+        // если мест нет
+        if (counter == size) {
+            return -1;
+        }
+
+        int slotNumber = hashFun(value);
+
+        // ищем пустой
+        while (true) {
+            // если пустой, то возвращаем
+            if (slots[slotNumber] == null) {
+                return slotNumber;
+            }
+            // берём новый слот с заданным шагом
+            slotNumber = getNewSlotNumber(slotNumber);
+        }
+    }
+
+    // находит индекс слота со значением, или -1
+    public int find(String value) {
+        int slotNumber = hashFun(value);
+        int counterAttempts = 0;
+
+        // ищем
+        while (counterAttempts != size) {
+            if (slots[slotNumber] != null && slots[slotNumber].equals(value)) {
+                return slotNumber;
+            }
+            counterAttempts++;
+            slotNumber = getNewSlotNumber(slotNumber);
+        }
         return -1;
     }
 
-    public int find(String value) {
-        // находит индекс слота со значением, или -1
-        return -1;
+    private int getNewSlotNumber(int slotNumber) {
+        return (slotNumber + step) % size;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            sb.append(slots[i]).append(" ");
+        }
+        return sb.toString();
     }
 }
