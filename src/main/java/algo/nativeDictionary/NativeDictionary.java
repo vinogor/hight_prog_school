@@ -18,11 +18,12 @@ class NativeDictionary<T> {
     public String[] slots;
     public T[] values;
     public int counter;
+    public int step = 3; // ???
 
     public NativeDictionary(int sz, Class clazz) {
         size = sz;
-        slots = new String[size];
-        values = (T[]) Array.newInstance(clazz, this.size);
+        slots = new String[size];                             // ключ
+        values = (T[]) Array.newInstance(clazz, this.size);   // значение
         counter = 0;
     }
 
@@ -35,13 +36,38 @@ class NativeDictionary<T> {
     // иначе false
     public boolean isKey(String key) {
 
+        // если мест нет
+        if (counter == size) {
+            return false;
+        }
+
+        int slotNumber = hashFun(key);
+        int counterAttempts = 0;
+
+        // ищем пустой слот
+        while (counterAttempts != size) {
+            // если пустой, то возвращаем
+            if (slots[slotNumber] == null) {
+                return true;
+            }
+            counterAttempts++;
+            slotNumber = getNewSlotNumber(slotNumber);
+        }
         return false;
     }
 
     // гарантированно записываем
     // значение value по ключу key
     public void put(String key, T value) {
+        // гарантированно ???
+        // а если ключ такой уже есть?? перезаписать
 
+        // если есть место
+        if (counter != size) {
+
+
+            counter++;
+        }
     }
 
     // возвращает value для key,
@@ -49,5 +75,9 @@ class NativeDictionary<T> {
     public T get(String key) {
 
         return null;
+    }
+
+    private int getNewSlotNumber(int slotNumber) {
+        return (slotNumber + step) % size;
     }
 }
