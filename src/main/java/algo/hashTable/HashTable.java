@@ -26,7 +26,8 @@ public class HashTable {
 
     // всегда возвращает корректный индекс слота
     public int hashFun(String value) {
-        return value.hashCode() % size;
+        int hash = value.hashCode() % size;
+        return (hash < 0) ? hash * (-1) : hash;
     }
 
     // записываем значение по хэш-функции
