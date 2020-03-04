@@ -6,8 +6,8 @@ class NativeDictionary<T> {
     public int size;
     public String[] slots;
     public T[] values;
-    public int counter;
     public int step = 3;
+    int counter;
 
     public NativeDictionary(int sz, Class clazz) {
         size = sz;
@@ -28,13 +28,13 @@ class NativeDictionary<T> {
         }
 
         int slotNumber = hashFun(key);
-        int counterAttempts = 0;
+        int attempts = 0;
 
-        while (counterAttempts != size) {
+        while (attempts != size) {
             if (slots[slotNumber] != null && slots[slotNumber].equals(key)) {
                 return true;
             }
-            counterAttempts++;
+            attempts++;
             slotNumber = getNewSlotNumber(slotNumber);
         }
         return false;
@@ -46,35 +46,35 @@ class NativeDictionary<T> {
             return;
         }
 
-        if (counter != size) {
+        int slotNumber = hashFun(key);
+        int attempts = 0;
 
-            int slotNumber = hashFun(key);
-            int counterAttempts = 0;
+        while (attempts != size) {
 
-            while (counterAttempts != size) {
-
-                if (slots[slotNumber] == null || slots[slotNumber].equals(key)) {
-                    slots[slotNumber] = key;
-                    values[slotNumber] = value;
-                    counter++;
-                    break;
-                }
-                counterAttempts++;
-                slotNumber = getNewSlotNumber(slotNumber);
+            if (slots[slotNumber] == null) {
+                slots[slotNumber] = key;
+                values[slotNumber] = value;
+                this.counter++;
+                break;
+            } else if (slots[slotNumber].equals(key)) {
+                values[slotNumber] = value;
+                break;
             }
+            attempts++;
+            slotNumber = getNewSlotNumber(slotNumber);
         }
     }
 
     public T get(String key) {
 
         int slotNumber = hashFun(key);
-        int counterAttempts = 0;
+        int attempts = 0;
 
-        while (counterAttempts != size) {
+        while (attempts != size) {
             if (slots[slotNumber] != null && slots[slotNumber].equals(key)) {
                 return values[slotNumber];
             }
-            counterAttempts++;
+            attempts++;
             slotNumber = getNewSlotNumber(slotNumber);
         }
         return null;

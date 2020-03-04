@@ -26,24 +26,22 @@ public class NativeDictionaryTest {
     public void isKey_02() {
         nd.put("1", 1);
 
-        boolean res = nd.isKey("1");
-        assertThat(res, is(true));
+        assertThat(nd.isKey("1"), is(true));
     }
 
     @Test // когда единственный ключ, но не тот
     public void isKey_03() {
         nd.put("1", 1);
 
-        boolean res = nd.isKey("2");
-        assertThat(res, is(false));
+        assertThat(nd.isKey("2"), is(false));
     }
+
     @Test // когда есть единственный ключ, ищем другой но с таким же хэш
     public void isKey_04() {
         nd.put("1", 1);
         String newKey = String.valueOf((char) ("1".toCharArray()[0] + nd.size));
 
-        boolean res = nd.isKey(newKey);
-        assertThat(res, is(false));
+        assertThat(nd.isKey(newKey), is(false));
     }
 
     @Test // когда ключей несколько, ищем один из них
@@ -52,8 +50,7 @@ public class NativeDictionaryTest {
         nd.put("2", 2);
         nd.put("3", 3);
 
-        boolean res = nd.isKey("2");
-        assertThat(res, is(true));
+        assertThat(nd.isKey("2"), is(true));
     }
 
     @Test // когда ключей несколько, ищем не существующий
@@ -62,8 +59,7 @@ public class NativeDictionaryTest {
         nd.put("2", 2);
         nd.put("3", 3);
 
-        boolean res = nd.isKey("4");
-        assertThat(res, is(false));
+        assertThat(nd.isKey("4"), is(false));
     }
 
     @Test // когда ключ налл
@@ -72,50 +68,126 @@ public class NativeDictionaryTest {
         nd.put("2", 2);
         nd.put("3", 3);
 
-        boolean res = nd.isKey(null);
-        assertThat(res, is(false));
+        assertThat(nd.isKey(null), is(false));
     }
 
-    @Test // когда всё заполнено, а нужного ключа нет
+    @Test // когда положили, потом перезаписали
+    public void isKey_07_1() {
+        nd.put("1", 1);
+        nd.put("1", 2);
+        nd.put("1", 3);
+
+        System.out.println(nd);
+        assertThat(nd.counter, is(1));
+        assertThat(nd.isKey("1"), is(true));
+    }
+
+    @Test // когда положили, потом перезаписали несколько
+    public void isKey_07_2() {
+        nd.put("1", 1);
+        nd.put("1", 2);
+        nd.put("1", 3);
+        nd.put("2", 1);
+        nd.put("3", 2);
+        nd.put("2", 3);
+
+        System.out.println(nd);
+        assertThat(nd.counter, is(3));
+        assertThat(nd.isKey("1"), is(true));
+        assertThat(nd.isKey("2"), is(true));
+        assertThat(nd.isKey("3"), is(true));
+        assertThat(nd.isKey("4"), is(false));
+    }
+
+    @Test // когда всё заполнено с одинак хэш, а нужного ключа нет
     public void isKey_08() {
-        int value = 0;
-        nd.put("a", value);
-        value++;
+        nd.put("a", -1);
 
         char ch = "a".toCharArray()[0];
+        System.out.println(nd);
 
         // заполняем до отказа
-        while (nd.counter != nd.size) {
+        for (int i = 0; i < nd.size; i++) {
             ch = (char) (ch + 19);
-            nd.put(String.valueOf(ch), value);
-            value++;
+            nd.put(String.valueOf(ch), i);
         }
 
         System.out.println(nd);
 
-        boolean res = nd.isKey("aaa");
-        assertThat(res, is(false));
+        assertThat(nd.isKey("aaa"), is(false));
+        assertThat(nd.isKey("a"), is(true));
     }
 
     @Test // когда всё заполнено, искомый ключ есть
     public void isKey_09() {
-        int value = 0;
-        nd.put("a", value);
-        value++;
+        nd.put("a", -1);
 
         char ch = "a".toCharArray()[0];
 
         // заполняем до отказа
-        while (nd.counter != nd.size) {
+        for (int i = 0; i < nd.size; i++) {
             ch = (char) (ch + 19);
-            nd.put(String.valueOf(ch), value);
-            value++;
+            nd.put(String.valueOf(ch), i);
         }
 
         System.out.println(nd);
 
-        boolean res = nd.isKey("ğ");
-        assertThat(res, is(true));
+        assertThat(nd.counter, is(19));
+        assertThat(nd.isKey("ğ"), is(true));
+        assertThat(nd.isKey("t"), is(true));
+    }
+
+    @Test // когда всё заполнено, перезаписано, чекаем все ключи
+    public void isKey_09_1() {
+        nd.put("a", -1);
+        char ch = "a".toCharArray()[0];
+
+        // заполняем до отказа
+        for (int i = 0; i < nd.size; i++) {
+            ch = (char) (ch + 19);
+            nd.put(String.valueOf(ch), i);
+        }
+
+        System.out.println(nd);
+
+        assertThat(nd.counter, is(19));
+        assertThat(nd.isKey("ğ"), is(true));
+        assertThat(nd.isKey("t"), is(true));
+
+
+        nd.put("a", 0);
+        ch = "a".toCharArray()[0];
+
+        // заполняем до отказа
+        for (int i = 1; i < nd.size + 1; i++) {
+            ch = (char) (ch + 19);
+            nd.put(String.valueOf(ch), i);
+        }
+
+        System.out.println(nd);
+
+        assertThat(nd.counter, is(19));
+        assertThat(nd.isKey("Ņ"), is(true));
+        assertThat(nd.isKey("Ó"), is(true));
+        assertThat(nd.isKey("a"), is(true));
+        assertThat(nd.isKey("Ř"), is(true));
+        assertThat(nd.isKey("æ"), is(true));
+        assertThat(nd.isKey("t"), is(true));
+        assertThat(nd.isKey("ū"), is(true));
+        assertThat(nd.isKey("ù"), is(true));
+        assertThat(nd.isKey("\u0087"), is(true));
+        assertThat(nd.isKey("ž"), is(true));
+        assertThat(nd.isKey("Č"), is(true));
+        assertThat(nd.isKey("\u009A"), is(true));
+        assertThat(nd.isKey("Ƒ"), is(true));
+        assertThat(nd.isKey("ğ"), is(true));
+        assertThat(nd.isKey("\u00AD"), is(true));
+        assertThat(nd.isKey("Ƥ"), is(true));
+        assertThat(nd.isKey("Ĳ"), is(true));
+        assertThat(nd.isKey("À"), is(true));
+        assertThat(nd.isKey("Ʒ"), is(true));
+
+        assertThat(nd.isKey("1"), is(false));
     }
 
     @Test // просто положили
@@ -130,7 +202,7 @@ public class NativeDictionaryTest {
     public void put_02() {
         nd.put("1", 1);
         nd.put("1", 11);
-        assertThat(nd.counter, is(2));
+        assertThat(nd.counter, is(1));
         assertThat(nd.slots[11], is("1"));
         assertThat(nd.values[11], is(11));
         assertThat(nd.slots[14], nullValue());
@@ -147,8 +219,8 @@ public class NativeDictionaryTest {
         assertThat(nd.counter, is(2));
         assertThat(nd.slots[11], is("1"));
         assertThat(nd.values[11], is(1));
-        assertThat(nd.slots[14], is(newKey));
-        assertThat(nd.values[14], is(11));
+        assertThat(nd.slots[(11 + nd.step) % nd.size], is(newKey));
+        assertThat(nd.values[(11 + nd.step) % nd.size], is(11));
     }
 
     @Test // попытка положить с ключём налл
@@ -160,6 +232,7 @@ public class NativeDictionaryTest {
     @Test // достаём из пустого
     public void get_01() {
         Integer res = nd.get("1");
+        assertThat(nd.counter, is(0));
         assertThat(res, nullValue());
     }
 
@@ -167,6 +240,7 @@ public class NativeDictionaryTest {
     public void get_02() {
         nd.put("1", 1);
         Integer res = nd.get("1");
+        assertThat(nd.counter, is(1));
         assertThat(res, is(1));
     }
 
@@ -174,6 +248,7 @@ public class NativeDictionaryTest {
     public void get_03() {
         nd.put("1", 1);
         Integer res = nd.get("2");
+        assertThat(nd.counter, is(1));
         assertThat(res, nullValue());
     }
 
@@ -182,6 +257,7 @@ public class NativeDictionaryTest {
         nd.put("1", 1);
         String newKey = String.valueOf((char) ("1".toCharArray()[0] + nd.size));
         Integer res = nd.get(newKey);
+        assertThat(nd.counter, is(1));
         assertThat(res, nullValue());
     }
 
@@ -190,6 +266,7 @@ public class NativeDictionaryTest {
         nd.put("1", 1);
         String newKey = String.valueOf((char) ("1".toCharArray()[0] + nd.size));
         nd.put(newKey, 11);
+        assertThat(nd.counter, is(2));
 
         Integer res = nd.get(newKey);
         assertThat(res, is(11));
