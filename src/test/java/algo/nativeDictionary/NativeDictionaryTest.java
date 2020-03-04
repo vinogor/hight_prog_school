@@ -37,7 +37,6 @@ public class NativeDictionaryTest {
         boolean res = nd.isKey("2");
         assertThat(res, is(false));
     }
-
     @Test // когда есть единственный ключ, ищем другой но с таким же хэш
     public void isKey_04() {
         nd.put("1", 1);
@@ -98,6 +97,27 @@ public class NativeDictionaryTest {
         assertThat(res, is(false));
     }
 
+    @Test // когда всё заполнено, искомый ключ есть
+    public void isKey_09() {
+        int value = 0;
+        nd.put("a", value);
+        value++;
+
+        char ch = "a".toCharArray()[0];
+
+        // заполняем до отказа
+        while (nd.counter != nd.size) {
+            ch = (char) (ch + 19);
+            nd.put(String.valueOf(ch), value);
+            value++;
+        }
+
+        System.out.println(nd);
+
+        boolean res = nd.isKey("ğ");
+        assertThat(res, is(true));
+    }
+
     @Test // просто положили
     public void put_01() {
         nd.put("1", 1);
@@ -131,6 +151,12 @@ public class NativeDictionaryTest {
         assertThat(nd.values[14], is(11));
     }
 
+    @Test // попытка положить с ключём налл
+    public void put_04() {
+        nd.put(null, 1);
+        assertThat(nd.counter, is(0));
+    }
+
     @Test // достаём из пустого
     public void get_01() {
         Integer res = nd.get("1");
@@ -161,19 +187,6 @@ public class NativeDictionaryTest {
 
     @Test // достаём когда лежат 2 с одинак хэшами, но только 1 подходит
     public void get_05() {
-        nd.put("1", 1);
-        String newKey = String.valueOf((char) ("1".toCharArray()[0] + nd.size));
-        nd.put(newKey, 11);
-
-        Integer res = nd.get(newKey);
-        assertThat(res, is(11));
-
-        res = nd.get("1");
-        assertThat(res, is(1));
-    }
-
-    @Test // достаём
-    public void get_06() {
         nd.put("1", 1);
         String newKey = String.valueOf((char) ("1".toCharArray()[0] + nd.size));
         nd.put(newKey, 11);
