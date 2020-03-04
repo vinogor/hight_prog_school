@@ -35,6 +35,10 @@ class NativeDictionary<T> {
     // возвращает true если ключ имеется,
     public boolean isKey(String key) {
 
+        if (key == null) {
+            return false;
+        }
+
         int slotNumber = hashFun(key);
         int counterAttempts = 0;
 
@@ -52,6 +56,10 @@ class NativeDictionary<T> {
     // "В данном обучающем примере исходим из фиксированного размера ассоциативного массива.
     // В автоматических тестах этот размер гарантированно не будет превышен."
     public void put(String key, T value) {
+
+        if (key == null) {
+            return;
+        }
 
         // если есть куда вставлять (ну на всякий случай)
         if (counter != size) {

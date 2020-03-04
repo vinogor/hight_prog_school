@@ -57,6 +57,15 @@ public class NativeDictionaryTest {
         assertThat(res, is(true));
     }
 
+    @Test // когда ключей несколько, ищем не существующий
+    public void isKey_06() {
+        nd.put("1", 1);
+        nd.put("2", 2);
+        nd.put("3", 3);
+
+        boolean res = nd.isKey("4");
+        assertThat(res, is(false));
+    }
 
     @Test // просто положили
     public void put_01() {
