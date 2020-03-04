@@ -33,21 +33,14 @@ class NativeDictionary<T> {
     }
 
     // возвращает true если ключ имеется,
-    // иначе false
     public boolean isKey(String key) {
-
-        // если мест нет
-        if (counter == size) {
-            return false;
-        }
 
         int slotNumber = hashFun(key);
         int counterAttempts = 0;
 
-        // ищем пустой слот
         while (counterAttempts != size) {
-            // если пустой, то возвращаем
-            if (slots[slotNumber] == null) {
+            // если ключ существует и равен, то
+            if (slots[slotNumber] != null && slots[slotNumber].equals(key)) {
                 return true;
             }
             counterAttempts++;
@@ -56,17 +49,28 @@ class NativeDictionary<T> {
         return false;
     }
 
-    // гарантированно записываем
-    // значение value по ключу key
+    // "В данном обучающем примере исходим из фиксированного размера ассоциативного массива.
+    // В автоматических тестах этот размер гарантированно не будет превышен."
     public void put(String key, T value) {
-        // гарантированно ???
-        // а если ключ такой уже есть?? перезаписать
 
-        // если есть место
+        // если есть куда вставлять (ну на всякий случай)
         if (counter != size) {
 
+            int slotNumber = hashFun(key);
+            int counterAttempts = 0;
 
-            counter++;
+            while (counterAttempts != size) {
+
+                // если слот пуст или с таким же ключом, то записываем
+                if (slots[slotNumber] == null || slots[slotNumber].equals(key)) {
+                    slots[slotNumber] = key;
+                    values[slotNumber] = value;
+                    counter++;
+                    break;
+                }
+                counterAttempts++;
+                slotNumber = getNewSlotNumber(slotNumber);
+            }
         }
     }
 
@@ -74,10 +78,30 @@ class NativeDictionary<T> {
     // или null если ключ не найден
     public T get(String key) {
 
+        int slotNumber = hashFun(key);
+        int counterAttempts = 0;
+
+        while (counterAttempts != size) {
+            // если ключ существует и равен, то
+            if (slots[slotNumber] != null && slots[slotNumber].equals(key)) {
+                return values[slotNumber];
+            }
+            counterAttempts++;
+            slotNumber = getNewSlotNumber(slotNumber);
+        }
         return null;
     }
 
     private int getNewSlotNumber(int slotNumber) {
         return (slotNumber + step) % size;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            sb.append("[").append(i).append("] ").append(slots[i]).append(" : ").append(values[i]).append(", ");
+        }
+        return sb.toString();
     }
 }
