@@ -32,6 +32,8 @@ class NativeDictionary<T> {
         return key.hashCode() % size;
     }
 
+    // === Исключение при проверке наличия отсутствующего ключа ===
+
     // возвращает true если ключ имеется,
     public boolean isKey(String key) {
 

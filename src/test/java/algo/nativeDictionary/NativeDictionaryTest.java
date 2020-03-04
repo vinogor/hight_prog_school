@@ -67,6 +67,37 @@ public class NativeDictionaryTest {
         assertThat(res, is(false));
     }
 
+    @Test // когда ключ налл
+    public void isKey_07() {
+        nd.put("1", 1);
+        nd.put("2", 2);
+        nd.put("3", 3);
+
+        boolean res = nd.isKey(null);
+        assertThat(res, is(false));
+    }
+
+    @Test // когда всё заполнено, а нужного ключа нет
+    public void isKey_08() {
+        int value = 0;
+        nd.put("a", value);
+        value++;
+
+        char ch = "a".toCharArray()[0];
+
+        // заполняем до отказа
+        while (nd.counter != nd.size) {
+            ch = (char) (ch + 19);
+            nd.put(String.valueOf(ch), value);
+            value++;
+        }
+
+        System.out.println(nd);
+
+        boolean res = nd.isKey("aaa");
+        assertThat(res, is(false));
+    }
+
     @Test // просто положили
     public void put_01() {
         nd.put("1", 1);
