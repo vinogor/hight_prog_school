@@ -3,19 +3,60 @@ package algo.powerSet;
 
 public class PowerSet {
 
+    public String[] values;
+    public int size;
+    public int step;
+    public int counter;
+
+    // ваша реализация хранилища
+    // В реализации используйте вариант с фиксированным размером хэш-таблицы на 20,000 значений строкового типа.
     public PowerSet() {
-        // ваша реализация хранилища
-        // В реализации используйте вариант с фиксированным размером хэш-таблицы на 20,000 значений строкового типа.
+        this.size = 20_000;
+        this.values = new String[this.size];
+        this.step = 3;
+        this.counter = 0;
+    }
+
+    public int hashFun(String key) {
+        int hash = key.hashCode() % size;
+        return (hash < 0) ? hash * (-1) : hash;
     }
 
     public int size() {
-        // количество элементов в множестве
-        return 0;
+        return counter;
     }
 
-
+    // не должен допускать добавление уже существующего в множестве значения
+    // всегда срабатывает
     public void put(String value) {
-        // всегда срабатывает
+
+        if (value == null) {
+            return;
+        }
+
+        int slotNumber = hashFun(value);
+        int attempts = 0;
+
+        while (attempts != size) {
+
+            // если слот не занят, то записываем и завершаем метод
+            if (values[slotNumber] == null) {
+                values[slotNumber] = value;
+                this.counter++;
+                break;
+            // если такое значение уже есть то завершаем метод
+            } else if (values[slotNumber].equals(value)) {
+                break;
+            }
+
+            attempts++;
+            slotNumber = getNewSlotNumber(slotNumber);
+        }
+
+    }
+
+    private int getNewSlotNumber(int slotNumber) {
+        return (slotNumber + step) % size;
     }
 
     public boolean get(String value) {
