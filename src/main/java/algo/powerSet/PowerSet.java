@@ -1,8 +1,5 @@
 package algo.powerSet;
 
-
-// добавить сохранение номеров ячеек где просто что-то записано
-
 public class PowerSet {
 
     public String[] values;
@@ -117,18 +114,39 @@ public class PowerSet {
 
         PowerSet res = new PowerSet();
 
-
-
-        return null;
+        for (String str : values) {
+            // если значение сущ и оно так же сущ в set2
+            if ((str != null) && (set2.get(str))) {
+                res.put(str);
+            }
+        }
+        return res;
     }
 
+    // объединение текущего множества и set2
     public PowerSet union(PowerSet set2) {
-        // объединение текущего множества и set2
-        return null;
+
+        PowerSet res = new PowerSet();
+
+        for (String str : values) {
+            if (str != null) {
+                res.put(str);
+            }
+        }
+
+        for (String str : set2.values) {
+            // если значение сущ
+            if (str != null) {
+                res.put(str);
+            }
+        }
+
+        return res;
     }
 
+    // разница текущего множества и set2
     public PowerSet difference(PowerSet set2) {
-        // разница текущего множества и set2
+
         return null;
     }
 
