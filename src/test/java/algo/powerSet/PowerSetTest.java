@@ -73,7 +73,75 @@ public class PowerSetTest {
 
 
     @Test
-    public void get() {
+    public void get_01() {
+        boolean res = ps.get(null);
+        assertThat(res, is(false));
+    }
+
+    @Test
+    public void get_02() {
+        ps.put("1");
+        boolean res = ps.get("1");
+        assertThat(res, is(true));
+    }
+
+    @Test
+    public void get_03() {
+        ps.put("1");
+        boolean res = ps.get("2");
+        assertThat(res, is(false));
+    }
+
+    @Test
+    public void get_04() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+        boolean res = ps.get("1");
+        assertThat(res, is(true));
+    }
+
+    @Test
+    public void get_05() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+        boolean res = ps.get("2");
+        assertThat(res, is(true));
+    }
+
+    @Test
+    public void get_06() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+        boolean res = ps.get("3");
+        assertThat(res, is(true));
+    }
+
+    @Test // получить одно из 2х значений у которых хэш одинаковый
+    public void get_07() {
+        ps.put("1");
+        char ch = "1".toCharArray()[0];
+        ch = (char) (ch + ps.size);
+        ps.put(String.valueOf(ch));
+
+
+        assertThat(ps.get("1"), is(true));
+        assertThat(ps.get(String.valueOf(ch)), is(true));
+    }
+
+    @Test // получить не сущ-е из 2х значений у которых хэш одинаковый
+    public void get_08() {
+        ps.put("1");
+        char ch = "1".toCharArray()[0];
+        ch = (char) (ch + ps.size);
+        ps.put(String.valueOf(ch));
+        ch = (char) (ch + ps.size);
+
+        assertThat(ps.get(String.valueOf(ch)), is(false));
+        ch = (char) (ch - ps.size);
+        assertThat(ps.get(String.valueOf(ch)), is(true));
     }
 
     @Test

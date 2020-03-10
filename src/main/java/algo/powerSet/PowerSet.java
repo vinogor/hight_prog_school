@@ -17,11 +17,6 @@ public class PowerSet {
         this.counter = 0;
     }
 
-    public int hashFun(String key) {
-        int hash = key.hashCode() % size;
-        return (hash < 0) ? hash * (-1) : hash;
-    }
-
     public int size() {
         return counter;
     }
@@ -44,7 +39,7 @@ public class PowerSet {
                 values[slotNumber] = value;
                 this.counter++;
                 break;
-            // если такое значение уже есть то завершаем метод
+                // если такое значение уже есть то завершаем метод
             } else if (values[slotNumber].equals(value)) {
                 break;
             }
@@ -52,16 +47,34 @@ public class PowerSet {
             attempts++;
             slotNumber = getNewSlotNumber(slotNumber);
         }
-
     }
 
-    private int getNewSlotNumber(int slotNumber) {
-        return (slotNumber + step) % size;
-    }
-
+    // возвращает true если value имеется в множестве,
+    // иначе false
     public boolean get(String value) {
-        // возвращает true если value имеется в множестве,
-        // иначе false
+
+        if (value == null) {
+            return false;
+        }
+
+        int slotNumber = hashFun(value);
+        int attempts = 0;
+
+        while (attempts != size) {
+
+            // если слот не занят, то false
+            if (values[slotNumber] == null) {
+                return false;
+            } else
+                // если такое значение уже есть то завершаем метод
+                if (values[slotNumber].equals(value)) {
+                    return true;
+                }
+
+            attempts++;
+            slotNumber = getNewSlotNumber(slotNumber);
+        }
+
         return false;
     }
 
@@ -91,5 +104,14 @@ public class PowerSet {
         // подмножество текущего множества,
         // иначе false
         return false;
+    }
+
+    private int getNewSlotNumber(int slotNumber) {
+        return (slotNumber + step) % size;
+    }
+
+    public int hashFun(String key) {
+        int hash = key.hashCode() % size;
+        return (hash < 0) ? hash * (-1) : hash;
     }
 }
