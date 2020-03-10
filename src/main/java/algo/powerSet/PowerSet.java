@@ -1,6 +1,8 @@
 package algo.powerSet;
 
 
+// добавить сохранение номеров ячеек где просто что-то записано
+
 public class PowerSet {
 
     public String[] values;
@@ -78,14 +80,45 @@ public class PowerSet {
         return false;
     }
 
+    // возвращает true если value удалено
+    // иначе false
     public boolean remove(String value) {
-        // возвращает true если value удалено
-        // иначе false
+
+        if (value == null) {
+            return false;
+        }
+
+        int slotNumber = hashFun(value);
+        int attempts = 0;
+
+        while (attempts != size) {
+
+            // если слот не занят, то удалять нечего
+            if (values[slotNumber] == null) {
+                return false;
+            } else
+                // если такое значение уже есть то
+                if (values[slotNumber].equals(value)) {
+                    // удаляем найденное
+                    values[slotNumber] = null;
+                    counter--;
+                    return true;
+                }
+
+            attempts++;
+            slotNumber = getNewSlotNumber(slotNumber);
+        }
+
         return false;
     }
 
+    // пересечение текущего множества и set2
     public PowerSet intersection(PowerSet set2) {
-        // пересечение текущего множества и set2
+
+        PowerSet res = new PowerSet();
+
+
+
         return null;
     }
 
