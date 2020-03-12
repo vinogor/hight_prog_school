@@ -148,19 +148,21 @@ public class PowerSet {
     public PowerSet difference(PowerSet set2) {
         PowerSet res = new PowerSet();
         for (String str : values) {
-            if (!set2.get(str)) {
+            if (str != null && !set2.get(str)) {
                 res.put(str);
             }
         }
         return res;
     }
 
+    // true если set2 полностью содержится внутри set1
     public boolean isSubset(PowerSet set2) {
-        // возвращает true, если set2 есть
-        // подмножество текущего множества,
-        // иначе false
-
-        return false;
+        for (String str : set2.values) {
+            if (str != null && !this.get(str)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private int getNewSlotNumber(int slotNumber) {

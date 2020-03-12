@@ -461,7 +461,72 @@ public class PowerSetTest {
         assertThat(res.toString(), is(""));
     }
 
-    @Test
-    public void isSubset() {
+    // true если set2 полностью содержится внутри set1
+    @Test // не входит ни разу
+    public void isSubset_01() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("4");
+        ps2.put("5");
+        ps2.put("6");
+
+        assertThat(ps.isSubset(ps2), is(false));
+    }
+
+    @Test // не входит частично
+    public void isSubset_02() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+        ps2.put("2");
+        ps2.put("6");
+
+        assertThat(ps.isSubset(ps2), is(false));
+    }
+
+    @Test // входит, одинаковы
+    public void isSubset_03() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+        ps2.put("2");
+        ps2.put("3");
+
+        assertThat(ps.isSubset(ps2), is(true));
+    }
+
+    @Test // входит, 1е больше 2го
+    public void isSubset_04() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+        ps.put("4");
+        ps.put("5");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+        ps2.put("2");
+        ps2.put("3");
+
+        assertThat(ps.isSubset(ps2), is(true));
+    }
+
+    @Test // входит, 1е = 2му, по 1 эл-ту
+    public void isSubset_05() {
+        ps.put("1");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+
+        assertThat(ps.isSubset(ps2), is(true));
     }
 }
