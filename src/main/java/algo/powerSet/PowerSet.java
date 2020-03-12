@@ -90,12 +90,8 @@ public class PowerSet {
 
         while (attempts != size) {
 
-            // если слот не занят, то удалять нечего
-            if (values[slotNumber] == null) {
-                return false;
-            } else
-                // если такое значение уже есть то
-                if (values[slotNumber].equals(value)) {
+                // если значение есть и оно равно искомому
+                if (values[slotNumber] != null && values[slotNumber].equals(value)) {
                     // удаляем найденное
                     values[slotNumber] = null;
                     counter--;

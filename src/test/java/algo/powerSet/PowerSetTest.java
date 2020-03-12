@@ -240,6 +240,106 @@ public class PowerSetTest {
         assertThat(res, is(false));
     }
 
+    @Test // удаляем несколько подряд, что-то останется
+    public void remove_10() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+        ps.put("4");
+        ps.put("5");
+        assertThat(ps.size(), is(5));
+        assertThat(ps.remove("5"), is(true));
+        assertThat(ps.size(), is(4));
+        assertThat(ps.remove("4"), is(true));
+    }
+
+    @Test // удаляем несколько подряд, до полного опустошения
+    public void remove_11() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+        ps.put("4");
+        ps.put("5");
+        assertThat(ps.size(), is(5));
+        assertThat(ps.remove("5"), is(true));
+        assertThat(ps.size(), is(4));
+        assertThat(ps.remove("4"), is(true));
+        assertThat(ps.size(), is(3));
+        assertThat(ps.remove("3"), is(true));
+        assertThat(ps.size(), is(2));
+        assertThat(ps.remove("2"), is(true));
+        assertThat(ps.size(), is(1));
+        assertThat(ps.remove("1"), is(true));
+        assertThat(ps.size(), is(0));
+        assertThat(ps.remove(""), is(false));
+        assertThat(ps.toString(), is(""));
+    }
+
+    @Test // удаляем, добавляем, удаляем, добавляем, удаляем...
+    public void remove_12() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+        assertThat(ps.size(), is(3));
+        assertThat(ps.remove("2"), is(true));
+        assertThat(ps.size(), is(2));
+        ps.put("4");
+        assertThat(ps.size(), is(3));
+        assertThat(ps.remove("1"), is(true));
+        assertThat(ps.size(), is(2));
+
+        assertThat(ps.remove("1"), is(false));
+        assertThat(ps.size(), is(2));
+
+        assertThat(ps.remove("3"), is(true));
+        assertThat(ps.size(), is(1));
+
+        assertThat(ps.toString(), is("4 "));
+    }
+
+    @Test // удаляем, добавляем, удаляем, добавляем, удаляем ВСЁ...
+    public void remove_13() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+        assertThat(ps.size(), is(3));
+        assertThat(ps.remove("2"), is(true));
+        assertThat(ps.size(), is(2));
+        ps.put("4");
+        assertThat(ps.size(), is(3));
+        assertThat(ps.remove("1"), is(true));
+        assertThat(ps.size(), is(2));
+
+        assertThat(ps.remove("1"), is(false));
+        assertThat(ps.size(), is(2));
+
+        assertThat(ps.remove("3"), is(true));
+        assertThat(ps.size(), is(1));
+        assertThat(ps.toString(), is("4 "));
+
+        assertThat(ps.remove("4"), is(true));
+        assertThat(ps.size(), is(0));
+        assertThat(ps.toString(), is(""));
+    }
+
+    //  ВЫЯВИЛ ОШИБКУ !!!
+    @Test // добавляем 2 с одинак хэш, удаляем первый, пытаемся удалить второй
+    public void remove_14() {
+        ps.put("1");
+        char ch = "1".toCharArray()[0];
+        ch = (char) (ch + ps.size);
+        ps.put(String.valueOf(ch));
+
+
+        assertThat(ps.counter, is(2));
+        assertThat(ps.remove("1"), is(true));
+        assertThat(ps.counter, is(1));
+        assertThat(ps.remove(String.valueOf(ch)), is(true));
+        assertThat(ps.counter, is(0));
+    }
+
+    // ===========================================================
+
     @Test // нет пересечений
     public void intersection_01() {
         ps.put("1");
