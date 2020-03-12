@@ -165,4 +165,16 @@ public class PowerSet {
         int hash = key.hashCode() % size;
         return (hash < 0) ? hash * (-1) : hash;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            String value = values[i];
+            if (value != null) {
+                sb.append(value).append(" ");
+            }
+        }
+        return sb.toString();
+    }
 }
