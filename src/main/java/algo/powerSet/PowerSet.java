@@ -146,14 +146,17 @@ public class PowerSet {
 
     // разница текущего множества и set2
     public PowerSet difference(PowerSet set2) {
+        PowerSet res = new PowerSet();
 
-        return null;
+
+        return res;
     }
 
     public boolean isSubset(PowerSet set2) {
         // возвращает true, если set2 есть
         // подмножество текущего множества,
         // иначе false
+
         return false;
     }
 

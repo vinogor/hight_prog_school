@@ -241,8 +241,103 @@ public class PowerSetTest {
         assertThat(res, is(false));
     }
 
-    @Test
-    public void intersection() {
+    @Test // нет пересечений
+    public void intersection_01() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("4");
+        ps2.put("5");
+        ps2.put("6");
+
+        PowerSet res = ps.intersection(ps2);
+        assertThat(res.counter, is(0));
+        assertThat(res.toString(), is(""));
+    }
+
+    @Test // есть 1 пересечение
+    public void intersection_02() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("4");
+        ps2.put("5");
+        ps2.put("6");
+        ps2.put("1");
+
+        PowerSet res = ps.intersection(ps2);
+        assertThat(res.counter, is(1));
+        assertThat(res.toString(), is("1 "));
+    }
+
+    @Test // 2е полностью входит в 1е
+    public void intersection_03() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+        ps.put("4");
+        ps.put("5");
+        ps.put("6");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("4");
+        ps2.put("5");
+        ps2.put("6");
+
+        PowerSet res = ps.intersection(ps2);
+        assertThat(res.counter, is(3));
+        assertThat(res.toString(), is("4 5 6 "));
+    }
+
+    @Test // 1е полностью входит во 2е
+    public void intersection_04() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+        ps2.put("2");
+        ps2.put("3");
+        ps2.put("4");
+        ps2.put("5");
+        ps2.put("6");
+
+        PowerSet res = ps.intersection(ps2);
+        assertThat(res.counter, is(3));
+        assertThat(res.toString(), is("1 2 3 "));
+    }
+
+    @Test // 1е == 2е
+    public void intersection_05() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+        ps2.put("2");
+        ps2.put("3");
+
+        PowerSet res = ps.intersection(ps2);
+        assertThat(res.counter, is(3));
+        assertThat(res.toString(), is("1 2 3 "));
+    }
+
+    @Test // 1е == 2е, по 1 эл-ту
+    public void intersection_06() {
+        ps.put("1");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+
+        PowerSet res = ps.intersection(ps2);
+        assertThat(res.counter, is(1));
+        assertThat(res.toString(), is("1 "));
     }
 
     @Test
