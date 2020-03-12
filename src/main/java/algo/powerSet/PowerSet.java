@@ -147,8 +147,11 @@ public class PowerSet {
     // разница текущего множества и set2
     public PowerSet difference(PowerSet set2) {
         PowerSet res = new PowerSet();
-
-
+        for (String str : values) {
+            if (!set2.get(str)) {
+                res.put(str);
+            }
+        }
         return res;
     }
 

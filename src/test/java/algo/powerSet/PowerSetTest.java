@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
 
 public class PowerSetTest {
 
@@ -340,12 +339,126 @@ public class PowerSetTest {
         assertThat(res.toString(), is("1 "));
     }
 
-    @Test
-    public void union() {
+    // ОБЪЕДИНЕНИЕ
+    @Test // по 3 эл-та, все разные
+    public void union_01() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("4");
+        ps2.put("5");
+        ps2.put("6");
+
+        PowerSet res = ps.union(ps2);
+        assertThat(res.counter, is(6));
+        assertThat(res.toString(), is("1 2 3 4 5 6 "));
     }
 
-    @Test
-    public void difference() {
+    @Test // по 3 эл-та, все одинаковые
+    public void union_04() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+        ps2.put("2");
+        ps2.put("3");
+
+        PowerSet res = ps.union(ps2);
+        assertThat(res.counter, is(3));
+        assertThat(res.toString(), is("1 2 3 "));
+    }
+
+    @Test // по 3 эл-та, частично одинаковые
+    public void union_05() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+        ps2.put("4");
+        ps2.put("3");
+
+        PowerSet res = ps.union(ps2);
+        assertThat(res.counter, is(4));
+        assertThat(res.toString(), is("1 2 3 4 "));
+    }
+
+    // РАЗНИЦА set1 - set2
+    @Test // оба разные
+    public void difference_01() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("4");
+        ps2.put("5");
+        ps2.put("6");
+
+        PowerSet res = ps.difference(ps2);
+        assertThat(res.counter, is(3));
+        assertThat(res.toString(), is("1 2 3 "));
+    }
+
+    @Test // оба одинаковые
+    public void difference_02() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+        ps2.put("2");
+        ps2.put("3");
+
+        PowerSet res = ps.difference(ps2);
+        assertThat(res.counter, is(0));
+        assertThat(res.toString(), is(""));
+    }
+
+    @Test // частично разные
+    public void difference_03() {
+        ps.put("1");
+        ps.put("2");
+        ps.put("3");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+        ps2.put("2");
+        ps2.put("4");
+
+        PowerSet res = ps.difference(ps2);
+        assertThat(res.counter, is(1));
+        assertThat(res.toString(), is("3 "));
+    }
+
+    @Test // по 1 эл-ту, разные
+    public void difference_04() {
+        ps.put("1");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("2");
+
+        PowerSet res = ps.difference(ps2);
+        assertThat(res.counter, is(1));
+        assertThat(res.toString(), is("1 "));
+    }
+
+    @Test // по 1 эл-ту, одинаковые
+    public void difference_05() {
+        ps.put("1");
+
+        PowerSet ps2 = new PowerSet();
+        ps2.put("1");
+
+        PowerSet res = ps.difference(ps2);
+        assertThat(res.counter, is(0));
+        assertThat(res.toString(), is(""));
     }
 
     @Test
