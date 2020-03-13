@@ -1,20 +1,17 @@
 package algo.bloomFilter;
 
 public class BloomFilter {
+
     public int filter_len;       // размер в битах
-    public int bitArray;        // типо битовый массив для фильтра
-    public long bitMask;          // бмтовая маска для получения остатка от деления
+    public int bitArray;         // типо битовый массив для фильтра
 
     public BloomFilter(int f_len) {
-        filter_len = f_len; // будет всё норм работать для максимум = 32
+        filter_len = f_len; // будет всё норм работать для максимум = 32 т.к. bitArray - int
 
         // создаём битовый массив длиной f_len ...
         bitArray = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 
-        // битовая маска для взятия по модулю
-        bitMask = ((long) 1 << filter_len) - 1;  // например - для 3 разрядов это 111
-        System.out.println(Long.toBinaryString(bitMask) + "- бит маска ");
-
+        System.out.println(getBinaryStringFromInt(bitArray) + " - исх состояние бит массива ");
     }
 
 
@@ -28,10 +25,7 @@ public class BloomFilter {
         int randomNum = 17;
         for (int i = 0; i < str1.length(); i++) {
             int code = (int) str1.charAt(i);  // char = 16 bit
-
-            // получаем модуль длины битового массива
-            // (приведение к long чтобы исключить возможность переполнения int при перемножении)
-            result = (int) (((long) (result * randomNum) + code) & bitMask);
+            result = (result * randomNum + code) % filter_len;   // от 0 до filter_len - 1
         }
         return result;
     }
@@ -40,30 +34,23 @@ public class BloomFilter {
         int result = 1;
         int randomNum = 223;
         for (int i = 0; i < str1.length(); i++) {
-            int code = (int) str1.charAt(i);  // char = 16 bit
-
-            // получаем модуль длины битового массива
-            // (приведение к long чтобы исключить возможность переполнения int при перемножении)
-            result = (int) (((long) (result * randomNum) + code) & bitMask);
+            int code = (int) str1.charAt(i);
+            result = (result * randomNum + code) % filter_len;
         }
         return result;
     }
 
     public void add(String str1) {
 
-        System.out.println(Integer.toBinaryString(bitArray) + " - исх состояние бит массива ");
-
         int hash1 = hash1(str1);
-        System.out.println(Integer.toBinaryString(hash1) + " - получаем хэш1 ");
-
-        bitArray = bitArray | hash1;
-        System.out.println(Integer.toBinaryString(bitArray) + " - бит массив после добавления хэш1 ");
+        System.out.println(hash1 + " - получаем хэш1 ");
+        bitArray = bitArray | 1 << (hash1);
+        System.out.println(getBinaryStringFromInt(bitArray) + " - бит массив после добавление хэш1 ");
 
         int hash2 = hash2(str1);
-        System.out.println("0" + Integer.toBinaryString(hash2) + " - получаем хэш2 ");
-
-        bitArray = bitArray | hash2;
-        System.out.println(Integer.toBinaryString(bitArray) + " - бит массив после добавления хэш2 ");
+        System.out.println(hash2 + " - получаем хэш1 ");
+        bitArray = bitArray | 1 << (hash2);
+        System.out.println(getBinaryStringFromInt(bitArray) + " - бит массив после добавление хэш2 ");
     }
 
     public boolean isValue(String str1) {
@@ -71,10 +58,18 @@ public class BloomFilter {
         return false;
     }
 
+    private String getBinaryStringFromInt(int i) {
+        // 32 - разрядность
+        String str = String.format("%32s", Integer.toBinaryString(i)).replace(" ", "0");
+        str = str.replaceAll("(.{4})", "$1 ");
+        return str;
+    }
+
     public static void main(String[] args) {
 
         BloomFilter bf = new BloomFilter(32);
         bf.add("qweqwesd134");
+        bf.add("qweqwesdfghd134");
 /*
 
         int x = 0b1111_1111_1111_1111_1111_1111_1111_1111;
