@@ -3,7 +3,7 @@ package algo.bloomFilter;
 public class BloomFilter {
     public int filter_len;       // размер в битах
     public int bitArray;        // типо битовый массив для фильтра
-    public int bitMask;          // бмтовая маска для получения остатка от деления
+    public long bitMask;          // бмтовая маска для получения остатка от деления
 
     public BloomFilter(int f_len) {
         filter_len = f_len; // будет всё норм работать для максимум = 32
@@ -12,15 +12,15 @@ public class BloomFilter {
         bitArray = 0b0000_0000_0000_0000_0000_0000_0000_0000;
 
         // битовая маска для взятия по модулю
-        bitMask = ((int) 1 << filter_len) - 1;  // например - для 3 разрядов это 111
-        System.out.println(Long.toBinaryString(bitMask));
+        bitMask = ((long) 1 << filter_len) - 1;  // например - для 3 разрядов это 111
+        System.out.println(Long.toBinaryString(bitMask) + "- бит маска ");
 
     }
 
 
     // Хэш-функции можно использовать достаточно простые, например версия для строки:
     // организуем цикл до длины строки, результат в этом цикле считаем как его версия с предыдущей итерации,
-    // умноженная на случайное число, к которой прибавляется код очередного символа,
+    // умноженная на случайное число, к которой прибавляетсяfilter_len код очередного символа,
     // и берём результат тут же по МОДУЛЮ ДЛИНЫ ТАБЛИЦЫ.
 
     public int hash1(String str1) {
@@ -50,7 +50,20 @@ public class BloomFilter {
     }
 
     public void add(String str1) {
-        // добавляем строку str1 в фильтр
+
+        System.out.println(Integer.toBinaryString(bitArray) + " - исх состояние бит массива ");
+
+        int hash1 = hash1(str1);
+        System.out.println(Integer.toBinaryString(hash1) + " - получаем хэш1 ");
+
+        bitArray = bitArray | hash1;
+        System.out.println(Integer.toBinaryString(bitArray) + " - бит массив после добавления хэш1 ");
+
+        int hash2 = hash2(str1);
+        System.out.println("0" + Integer.toBinaryString(hash2) + " - получаем хэш2 ");
+
+        bitArray = bitArray | hash2;
+        System.out.println(Integer.toBinaryString(bitArray) + " - бит массив после добавления хэш2 ");
     }
 
     public boolean isValue(String str1) {
@@ -60,7 +73,8 @@ public class BloomFilter {
 
     public static void main(String[] args) {
 
-        new BloomFilter(3);
+        BloomFilter bf = new BloomFilter(32);
+        bf.add("qweqwesd134");
 /*
 
         int x = 0b1111_1111_1111_1111_1111_1111_1111_1111;
