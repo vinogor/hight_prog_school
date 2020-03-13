@@ -2,10 +2,13 @@ package algo.bloomFilter;
 
 public class BloomFilter {
     public int filter_len;
+    public int bitArray;
 
     public BloomFilter(int f_len) {
         filter_len = f_len;
+
         // создаём битовый массив длиной f_len ...
+        bitArray = 0b0000_0000_0000_0000_0000_0000_0000_0000;
     }
 
     // хэш-функции
@@ -35,8 +38,13 @@ public class BloomFilter {
 
     public static void main(String[] args) {
 
-        int x = 0b111_1111_1111_1111_1111_1111_1111_1111;
+        int x = 0b1111_1111_1111_1111_1111_1111_1111_1111;
+        int y = 0b1011_1111_1111_1111_1111_1111_1111_1111;
 
+        System.out.println(x);
+        System.out.println(y);
+
+        System.out.println();
         System.out.println("          " + 0 + " = " + Integer.toBinaryString(0));
         System.out.println("         " + ~0 + " = " + Integer.toBinaryString(~0));
         System.out.println();
@@ -60,5 +68,7 @@ public class BloomFilter {
 
         // если размер битового массива должен быть больше 32 (31) бита?
         // может сразу делать на long ???
+
+        // кароче пока всё для инт и менее сделать
     }
 }
