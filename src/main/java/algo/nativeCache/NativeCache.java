@@ -84,9 +84,6 @@ class NativeCache<T> {
         values[minHitsIndex] = value;
         hits[minHitsIndex] = 0;
         minHits = 0;
-        // сможем ли мы его получить? Хэшкод то другой...
-        // вроде да, но перебором. Протестировать!
-
     }
 
     // при +1 к хитам, надо актуализировать минимальное кол-во хитов
@@ -131,7 +128,7 @@ class NativeCache<T> {
             // если мин хитс такое же, то сразу выход (меньше точно станет)
             if (hits[slotNumber] == minHits) {
                 minHitsIndex = slotNumber;
-                break;
+                return;
             }
 
             // если на 1 больше, то запоминаем и продолжаем поиск
