@@ -3,11 +3,11 @@ package algo.nativeCache;
 import java.lang.reflect.Array;
 
 class NativeCache<T> {
-    public int size;        // общая вместимость
-    public String[] slots;  // ключи
-    public T[] values;      // значения
-    public int[] hits;      // кол-во обращений к ключам
-    public int step = 1;    // шаг поиска
+    public int size;               // общая вместимость
+    public String[] slots;         // ключи
+    public T[] values;             // значения
+    public int[] hits;             // кол-во обращений к ключам
+    public int step = 1;           // шаг поиска
     public int counter;            // счётчик эл-ов
 
     public int minHits;             // минимальное кол-во хитов у эл-та
@@ -17,6 +17,7 @@ class NativeCache<T> {
         this.size = size;
         this.slots = new String[size];
         this.values = (T[]) Array.newInstance(clazz, this.size);
+        this.hits = new int[size];
         this.counter = 0;
         this.minHits = 0;
         this.minHitsIndex = 0;
@@ -64,13 +65,13 @@ class NativeCache<T> {
                 values[slotNumber] = value;
                 hits[slotNumber] = 0;  // на всякий случай
                 this.counter++;
-                break;
+                return;
             } else
 
                 // перезапись значения
                 if (slots[slotNumber].equals(key)) {
                     values[slotNumber] = value;
-                    break;
+                    return;
                 }
 
             attempts++;
@@ -155,10 +156,10 @@ class NativeCache<T> {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
             sb
-                    .append("[").append(i).append("] ")
-                    .append("key: ").append(slots[i])
-                    .append("value: ").append(values[i])
-                    .append("hits: ").append(hits[i])
+                    .append("[").append(i).append("]")
+                    .append(" key: ").append(slots[i])
+                    .append(", value: ").append(values[i])
+                    .append(", hits: ").append(hits[i])
                     .append(System.getProperty("line.separator"));
         }
         return sb.toString();
