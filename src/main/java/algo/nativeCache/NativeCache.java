@@ -115,17 +115,30 @@ class NativeCache<T> {
     }
 
     private void searchNewMin(int slotNumber) {
+        // текущее минимальное кол-во хитов тут меньше не станет...
+        // либо такое же, либо +1
+        // todo
         slotNumber = getNewSlotNumber(slotNumber);
-        int attempts = 1; // ??? если = 0, последния попытка сравнивает с самим собой
+        int attempts = 0;
+
         while (attempts != size) {
-            if (hits[slotNumber] < minHits) {
-                minHits = hits[slotNumber];
+            // если такое же, то сразу выход
+            if (hits[slotNumber] == minHits) {
                 minHitsIndex = slotNumber;
                 break;
             }
+
+            // если на 1 больше, то запоминаем и продолжаем поиск
+            if (hits[slotNumber] == minHits + 1) {
+                minHitsIndex = slotNumber;
+            }
+
             attempts++;
             slotNumber = getNewSlotNumber(slotNumber);
         }
+
+        // если в итоге минимальный на 1 больше
+        minHits++;
     }
 
     private int getNewSlotNumber(int slotNumber) {
