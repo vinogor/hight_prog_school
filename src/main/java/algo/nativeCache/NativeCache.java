@@ -46,6 +46,7 @@ class NativeCache<T> {
         return false;
     }
 
+
     public void put(String key, T value) {
 
         if (key == null) {
@@ -61,28 +62,29 @@ class NativeCache<T> {
             if (slots[slotNumber] == null) {
                 slots[slotNumber] = key;
                 values[slotNumber] = value;
+                hits[slotNumber] = 0;  // на всякий случай
                 this.counter++;
                 break;
             } else
 
                 // перезапись значения
                 if (slots[slotNumber].equals(key)) {
-                values[slotNumber] = value;
-                break;
-            }
+                    values[slotNumber] = value;
+                    break;
+                }
 
             attempts++;
             slotNumber = getNewSlotNumber(slotNumber);
         }
 
-        // если места нет и ключа такого нет, то ставим вместо менее хитового
+        // если места нет и ключа такого не хранится, то ставим вместо менее хитового
         // (заранее знаем какой и где он)
         slots[minHitsIndex] = key;
         values[minHitsIndex] = value;
         hits[minHitsIndex] = 0;
         minHits = 0;
         // сможем ли мы его получить? Хэшкод то другой...
-        // вроде да, но перебором
+        // вроде да, но перебором. Протестировать!
 
     }
 
@@ -99,8 +101,10 @@ class NativeCache<T> {
 
                 // обновляем хиты
                 hits[slotNumber]++;
-                // если это был э-т с минимальным кол-ом хитов в прошлом, то
+
+                // если это был э-т с минимальным кол-ом хитов до вызова этого метода, то
                 if (minHitsIndex == slotNumber) {
+
                     // поиск нового эл-та с минимальным кол-вом хитов
                     // (но он может остаться по-прежнему самым мин-м)
                     searchNewMin(slotNumber);
@@ -115,14 +119,15 @@ class NativeCache<T> {
     }
 
     private void searchNewMin(int slotNumber) {
-        // текущее минимальное кол-во хитов тут меньше не станет...
+        // текущее минимальное кол-во хитов ТУТ меньше не станет...
         // либо такое же, либо +1
-        // todo
+
         slotNumber = getNewSlotNumber(slotNumber);
-        int attempts = 0;
+        int attempts = 0; // не = 1, чтобы в конеце сравнить с хитанутой ячейкой перед вызовом этого метода
 
         while (attempts != size) {
-            // если такое же, то сразу выход
+
+            // если мин хитс такое же, то сразу выход (меньше точно станет)
             if (hits[slotNumber] == minHits) {
                 minHitsIndex = slotNumber;
                 break;
@@ -137,7 +142,7 @@ class NativeCache<T> {
             slotNumber = getNewSlotNumber(slotNumber);
         }
 
-        // если в итоге минимальный на 1 больше
+        // если в итоге минимальное найденное значение хитов на 1 больше прошлого минимального
         minHits++;
     }
 
