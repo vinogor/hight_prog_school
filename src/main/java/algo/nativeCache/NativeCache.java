@@ -8,10 +8,10 @@ class NativeCache<T> {
     public T[] values;      // значения
     public int[] hits;      // кол-во обращений к ключам
     public int step = 1;    // шаг поиска
-    int counter;            // счётчик эл-ов
+    public int counter;            // счётчик эл-ов
 
-    int minHits;             // минимальное кол-во хитов у эл-та
-    int minHitsIndex;        // индекс эл-та с минимальным хитом
+    public int minHits;             // минимальное кол-во хитов у эл-та
+    public int minHitsIndex;        // индекс эл-та с минимальным хитом
 
     public NativeCache(int size, Class clazz) {
         this.size = size;
@@ -118,7 +118,7 @@ class NativeCache<T> {
         return null;
     }
 
-    private void searchNewMin(int slotNumber) {
+    public void searchNewMin(int slotNumber) {
         // текущее минимальное кол-во хитов ТУТ меньше не станет...
         // либо такое же, либо +1
 
@@ -146,7 +146,7 @@ class NativeCache<T> {
         minHits++;
     }
 
-    private int getNewSlotNumber(int slotNumber) {
+    public int getNewSlotNumber(int slotNumber) {
         return (slotNumber + step) % size;
     }
 
