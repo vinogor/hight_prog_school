@@ -156,10 +156,10 @@ class NativeCache<T> {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
             sb
-                    .append("[").append(i).append("]")
-                    .append(" key: ").append(slots[i])
-                    .append(", value: ").append(values[i])
-                    .append(", hits: ").append(hits[i])
+                    .append("[").append(String.format("%2d", i)).append("]")
+                    .append(" key: ").append(String.format("%6s", slots[i]))
+                    .append(", value: ").append(String.format("%6s", values[i]))
+                    .append(", hits: ").append(String.format("%2s", hits[i]))
                     .append(System.getProperty("line.separator"));
         }
         return sb.toString();
