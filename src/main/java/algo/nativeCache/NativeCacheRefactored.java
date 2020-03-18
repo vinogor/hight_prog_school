@@ -13,7 +13,7 @@ class NativeCacheRefactored<T> {
     public int minHits;             // минимальное кол-во хитов у эл-та
     public int minHitsIndex;        // индекс эл-та с минимальным хитом
 
-    Integer attempts;
+    private Integer attempts;
 
     public NativeCacheRefactored(int size, Class clazz) {
         this.size = size;
@@ -25,9 +25,22 @@ class NativeCacheRefactored<T> {
         this.minHitsIndex = 0;
     }
 
-    public int hashFun(String key) {
-        int hash = key.hashCode() % size;
-        return (hash < 0) ? hash * (-1) : hash;
+    interface Action {
+        Object doAction(int slotNumber);
+    }
+
+    private Object search(int startSlotNumber, Action action) {
+
+        Object result = null;
+        int slotNumber = startSlotNumber;
+        attempts = 0;
+
+        while (attempts != size) {
+            result = action.doAction(slotNumber); // силная магия!!
+            attempts++;
+            slotNumber = getNewSlotNumber(slotNumber);
+        }
+        return result;
     }
 
     public boolean isKey(String key) {
@@ -36,52 +49,16 @@ class NativeCacheRefactored<T> {
             return false;
         }
 
-        boolean result = (boolean) search(key, (slotNumber) -> {
+        int startSlotNumber = hashFun(key);
 
-            // основное тело цикла
+        return (boolean) search(startSlotNumber, (slotNumber) -> {
+            // переменное тело цикла
             if (slots[slotNumber] != null && slots[slotNumber].equals(key)) {
                 attempts = size - 1; // чтобы вышло из цикла по условию
                 return true;
             }
             return false;
         });
-
-        return result;
-
-//        return (boolean) result;
-    }
-
-    interface Action {
-        Object doAction(int slotNumber);
-    }
-
-    private Object search(String key, Action action) {
-
-        Object result = null;
-
-        int slotNumber = hashFun(key);
-
-//        int attempts = 0;
-        attempts = 0;
-
-        while (attempts != size) {
-
-            // ***************** вот это вот всё заменяем на...
-
-//            if (slots[slotNumber] != null && slots[slotNumber].equals(key)) {
-//                result = true;
-//                attempts = size - 1; // чтобы вышло из цикла по условию
-//            }
-
-            // **************** вот на это
-            result = action.doAction(slotNumber);
-            // ****************
-
-
-            attempts++;
-            slotNumber = getNewSlotNumber(slotNumber);
-        }
-        return result;
     }
 
 
@@ -91,28 +68,31 @@ class NativeCacheRefactored<T> {
             return;
         }
 
-        int slotNumber = hashFun(key);
-        int attempts = 0;
+        int startSlotNumber = hashFun(key);
 
-        while (attempts != size) {
-
+        boolean result = (boolean) search(startSlotNumber, (slotNumber) -> {
             // запись нового значения
             if (slots[slotNumber] == null) {
                 slots[slotNumber] = key;
                 values[slotNumber] = value;
                 hits[slotNumber] = 0;  // на всякий случай
                 this.counter++;
-                return;
-            } else
 
+                attempts = size - 1; // чтобы вышло из цикла по условию
+                return false;
+            } else
                 // перезапись значения
                 if (slots[slotNumber].equals(key)) {
                     values[slotNumber] = value;
-                    return;
-                }
 
-            attempts++;
-            slotNumber = getNewSlotNumber(slotNumber);
+                    attempts = size - 1; // чтобы вышло из цикла по условию
+                    return false;
+                }
+            return true; // а тут цикл досрочно не прерываем
+        });
+
+        if (!result) {
+            return;
         }
 
         // если места нет и ключа такого не хранится, то ставим вместо менее хитового
@@ -124,57 +104,57 @@ class NativeCacheRefactored<T> {
     }
 
     // при +1 к хитам, надо актуализировать минимальное кол-во хитов
+
     public T get(String key) {
 
-        int slotNumber = hashFun(key);
-        int attempts = 0;
+        if (key == null) {
+            return null;
+        }
 
-        while (attempts != size) {
+        int startSlotNumber = hashFun(key);
 
+        T result = (T) search(startSlotNumber, (slotNumber) -> {
+            T tempResult = null;
             // если есть ключ и он равен искомому
             if (slots[slotNumber] != null && slots[slotNumber].equals(key)) {
-
                 // обновляем хиты
                 hits[slotNumber]++;
-
                 // если это был э-т с минимальным кол-ом хитов до вызова этого метода, то
                 if (minHitsIndex == slotNumber) {
-
                     // поиск нового эл-та с минимальным кол-вом хитов
                     // (но он может остаться по-прежнему самым мин-м)
                     searchNewMin(slotNumber);
                 }
-
-                return values[slotNumber];
+                attempts = size - 1; // чтобы вышло из цикла по условию
+                tempResult = values[slotNumber];
             }
-            attempts++;
-            slotNumber = getNewSlotNumber(slotNumber);
-        }
-        return null;
+            return tempResult;
+        });
+
+        return result;
     }
 
-    public void searchNewMin(int slotNumber) {
+    public void searchNewMin(int slotNumber_) {
         // текущее минимальное кол-во хитов ТУТ меньше не станет...
         // либо такое же, либо +1
+        int startSlotNumber = getNewSlotNumber(slotNumber_);
 
-        slotNumber = getNewSlotNumber(slotNumber);
-        int attempts = 0; // не = 1, чтобы в конеце сравнить с хитанутой ячейкой перед вызовом этого метода
-
-        while (attempts != size) {
-
+        boolean result = (boolean) search(startSlotNumber, (slotNumber) -> {
             // если мин хитс такое же, то сразу выход (меньше точно станет)
             if (hits[slotNumber] == minHits) {
                 minHitsIndex = slotNumber;
-                return;
+                attempts = size - 1; // чтобы вышло из цикла по условию
+                return false;
             }
-
             // если на 1 больше, то запоминаем и продолжаем поиск
             if (hits[slotNumber] == minHits + 1) {
                 minHitsIndex = slotNumber;
             }
+            return true;
+        });
 
-            attempts++;
-            slotNumber = getNewSlotNumber(slotNumber);
+        if (!result) {
+            return;
         }
 
         // если в итоге минимальное найденное значение хитов на 1 больше прошлого минимального
@@ -183,6 +163,11 @@ class NativeCacheRefactored<T> {
 
     public int getNewSlotNumber(int slotNumber) {
         return (slotNumber + step) % size;
+    }
+
+    public int hashFun(String key) {
+        int hash = key.hashCode() % size;
+        return (hash < 0) ? hash * (-1) : hash;
     }
 
     @Override
