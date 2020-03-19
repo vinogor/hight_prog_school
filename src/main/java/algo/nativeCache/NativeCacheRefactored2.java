@@ -2,7 +2,7 @@ package algo.nativeCache;
 
 import java.lang.reflect.Array;
 
-class NativeCache<T> {
+class NativeCacheRefactored2<T> {
     public int size;               // общая вместимость
     public String[] slots;         // ключи
     public T[] values;             // значения
@@ -13,7 +13,7 @@ class NativeCache<T> {
     public int minHits;             // минимальное кол-во хитов у эл-та
     public int minHitsIndex;        // индекс эл-та с минимальным хитом
 
-    public NativeCache(int size, Class clazz) {
+    public NativeCacheRefactored2(int size, Class clazz) {
         this.size = size;
         this.slots = new String[size];
         this.values = (T[]) Array.newInstance(clazz, this.size);
